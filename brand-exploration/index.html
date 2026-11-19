@@ -1,0 +1,1467 @@
+<title>Three Directions, Round One</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..700&family=DM+Mono:wght@400;500&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Lexend+Exa:wght@200..500&family=Lexend:wght@300..600&family=Manrope:wght@400..800&family=Sora:wght@300..700&family=Spline+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a neutral review "binder" (chrome) that hands the stage to three fully self-coloured direction bands, each with its own token set. */
+:root{
+  --c-bg:#F3F3F1; --c-card:#FFFFFF; --c-fg:#1A1B1E; --c-muted:#5C5E66; --c-line:#DCDCD8; --c-chip:#E8E8E4; --c-focus:#2F44B0;
+  --f-chrome:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-chrome-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --c-bg:#141518; --c-card:#1C1D21; --c-fg:#ECECEA; --c-muted:#A3A5AD; --c-line:#2E3036; --c-chip:#26282D; --c-focus:#8C9BFF; color-scheme:dark } }
+:root[data-theme="dark"]{ --c-bg:#141518; --c-card:#1C1D21; --c-fg:#ECECEA; --c-muted:#A3A5AD; --c-line:#2E3036; --c-chip:#26282D; --c-focus:#8C9BFF; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--c-bg); color:var(--c-fg); font-family:var(--f-chrome); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--c-bg)}
+.gut{padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px; margin:0 auto}
+h1,h2,h3,h4{text-wrap:balance; margin:0}
+p{margin:0}
+:focus-visible{outline:2px solid var(--c-focus); outline-offset:3px; border-radius:4px}
+button{font:inherit; cursor:pointer}
+.mono{font-family:var(--f-chrome-mono)}
+.eyebrow{font-family:var(--f-chrome-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--c-muted)}
+
+/* ---------- Intro (chrome) ---------- */
+.intro{padding-block:56px 40px}
+.intro-grid{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:48px; align-items:end}
+.intro h1{font-size:clamp(34px,5vw,56px); line-height:1.05; letter-spacing:-.025em; font-weight:700; margin-top:14px}
+.intro h1 .ph{font-family:var(--f-chrome-mono); font-weight:500; font-size:.62em; letter-spacing:0; padding:.1em .35em; border:1.5px dashed var(--c-muted); border-radius:8px; white-space:nowrap; vertical-align:.12em}
+.intro .lede{font-size:18px; max-width:60ch; margin-top:18px; color:var(--c-fg)}
+.brief{background:var(--c-card); border:1px solid var(--c-line); border-radius:14px; padding:22px; display:grid; gap:14px}
+.brief .phil{font-size:22px; font-weight:700; letter-spacing:-.01em}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{font-size:12.5px; padding:5px 10px; border-radius:999px; background:var(--c-chip); color:var(--c-fg)}
+.note{font-size:13.5px; color:var(--c-muted)}
+.jump{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:36px}
+.jump a{display:grid; gap:10px; text-decoration:none; color:inherit; background:var(--c-card); border:1px solid var(--c-line); border-radius:14px; padding:16px; transition:transform .2s ease, border-color .2s}
+.jump a:hover{transform:translateY(-2px); border-color:var(--c-muted)}
+.jump .jsw{display:flex; height:28px; border-radius:8px; overflow:hidden}
+.jump .jsw i{flex:1}
+.jump b{font-size:16px}
+.jump span{font-size:13px; color:var(--c-muted)}
+
+nav.toc{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:color-mix(in srgb, var(--c-bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--c-line)}
+nav.toc .wrap{display:flex; gap:4px; overflow-x:auto; padding-block:10px; scrollbar-width:none}
+nav.toc a{flex:none; font-size:13px; font-weight:600; text-decoration:none; color:var(--c-muted); padding:6px 12px; border-radius:999px}
+nav.toc a:hover{color:var(--c-fg); background:var(--c-chip)}
+
+/* ---------- Direction band (shared structure; tokens per direction) ---------- */
+.dir{background:var(--bg); color:var(--ink); font-family:var(--ui); padding-block:72px 88px; border-top:1px solid var(--line)}
+.dir .head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; align-items:end; margin-bottom:56px}
+.dir .num{font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.dir h2{font-family:var(--display); font-size:clamp(36px,5.4vw,68px); line-height:1.02; margin-top:12px}
+.dir .thesis{font-size:18px; line-height:1.55; max-width:52ch; color:var(--ink)}
+.blk{display:grid; grid-template-columns:200px minmax(0,1fr); gap:32px; padding-block:40px; border-top:1px solid var(--line)}
+.blk > .lbl{font-family:var(--mono); font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); padding-top:4px}
+.blk > .lbl b{display:block; font-family:var(--ui); font-size:17px; letter-spacing:0; text-transform:none; color:var(--ink); font-weight:600; margin-top:6px}
+.blk.wide{grid-template-columns:minmax(0,1fr); gap:18px}
+.blk.wide > .lbl{display:flex; flex-wrap:wrap; gap:14px; align-items:baseline}
+.blk.wide > .lbl b{margin-top:0}
+.body{min-width:0; display:grid; gap:24px}
+.prose{max-width:66ch; display:grid; gap:12px; font-size:15.5px}
+.prose strong{font-weight:600}
+.two{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); padding:22px}
+.small{font-size:13px; color:var(--muted)}
+.tag{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+ul.clean{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+ul.clean li{display:grid; grid-template-columns:18px minmax(0,1fr); gap:8px; font-size:14.5px}
+ul.clean li::before{content:""; width:8px; height:8px; margin-top:8px; border-radius:var(--bullet-r); background:var(--accent)}
+ul.clean.no li::before{background:transparent; border:1.5px solid var(--muted)}
+
+/* moodboard */
+.mood{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:150px; gap:10px}
+.mood > div{position:relative; border-radius:var(--r-tile); overflow:hidden; padding:14px; display:flex; flex-direction:column; justify-content:flex-end}
+.mood .cap{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase}
+.mood svg{position:absolute; inset:0; width:100%; height:100%}
+.mood .cap{position:relative}
+.w2{grid-column:span 2} .h2{grid-row:span 2}
+
+/* palette */
+.pal{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px}
+.sw{border-radius:var(--r-tile); overflow:hidden; border:1px solid var(--line); background:var(--surface)}
+.sw .chipc{height:96px}
+.sw .meta{padding:10px 12px; display:grid; gap:2px}
+.sw .meta b{font-size:13.5px; font-weight:600}
+.sw .meta code{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.sw .meta small{font-size:11.5px; color:var(--muted)}
+.dkrow{display:flex; flex-wrap:wrap; gap:0; border-radius:var(--r-tile); overflow:hidden; border:1px solid var(--line)}
+.dkrow div{flex:1 1 90px; min-height:64px; padding:10px; display:flex; flex-direction:column; justify-content:flex-end; font-family:var(--mono); font-size:11px}
+.contrast{display:flex; flex-wrap:wrap; gap:8px}
+.contrast span{font-family:var(--mono); font-size:12px; padding:6px 10px; border-radius:var(--r-chip); border:1px solid var(--line); background:var(--surface)}
+
+/* type */
+.spec{display:grid; gap:18px}
+.spec .big{font-family:var(--display); line-height:1.02}
+.scale{display:grid; gap:10px}
+.scale div{display:grid; grid-template-columns:110px minmax(0,1fr); gap:16px; align-items:baseline; border-top:1px dashed var(--line); padding-top:10px}
+.scale code{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+
+/* symbols */
+.syms{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+.sym{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); padding:20px; display:grid; gap:12px; align-content:start}
+.sym svg{width:96px; height:96px}
+.sym b{font-size:15px; font-weight:600}
+.sym p{font-size:13.5px; color:var(--muted)}
+.lockup{display:flex; flex-wrap:wrap; align-items:center; gap:22px; padding:28px; border-radius:var(--r-card); border:1.5px dashed var(--line)}
+.lockup .wm{font-family:var(--display); font-size:30px}
+.motifs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px}
+.motifs > div{height:110px; border-radius:var(--r-tile); background:var(--surface); border:1px solid var(--line); position:relative; overflow:hidden}
+.motifs svg{position:absolute; inset:0; width:100%; height:100%}
+.motifs span{position:absolute; left:10px; bottom:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); background:var(--surface); padding:2px 6px; border-radius:4px}
+
+/* icons */
+.icons{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px}
+.icons figure{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-tile); padding:16px 8px 10px; display:grid; justify-items:center; gap:8px}
+.icons svg{width:32px; height:32px; color:var(--ink)}
+.icons figcaption{font-size:12px; color:var(--muted)}
+.illo{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); overflow:hidden}
+.illo svg{display:block; width:100%; height:auto}
+
+/* surfaces */
+.surf{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+.surf .s{min-height:120px; padding:16px; display:flex; flex-direction:column; justify-content:flex-end; gap:4px}
+.surf .s b{font-size:14px; font-weight:600}
+.surf .s code{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+.spacing{display:flex; align-items:flex-end; gap:12px; flex-wrap:wrap}
+.spacing div{display:grid; justify-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:var(--muted)}
+.spacing i{display:block; background:var(--accent); opacity:.85; border-radius:2px}
+.radii{display:flex; gap:12px; flex-wrap:wrap}
+.radii div{width:76px; height:56px; border:1.5px solid var(--ink); display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px; font-family:var(--mono); font-size:11px}
+
+/* motion */
+.motion{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start}
+.stage{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); min-height:260px; position:relative; overflow:hidden; padding:20px}
+.replay{position:absolute; right:12px; top:12px; z-index:2; font-family:var(--mono); font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; padding:6px 10px; border-radius:var(--r-chip); border:1px solid var(--line); background:var(--bg); color:var(--ink)}
+.tokens{font-family:var(--mono); font-size:12.5px; display:grid; gap:6px}
+.tokens div{display:flex; justify-content:space-between; gap:12px; border-bottom:1px dashed var(--line); padding-bottom:6px}
+.tokens span:last-child{color:var(--muted); text-align:right}
+
+/* mock frames */
+.scroller{overflow-x:auto; border-radius:var(--r-frame); -webkit-overflow-scrolling:touch}
+.frame{min-width:1040px; border-radius:var(--r-frame); overflow:hidden; border:1px solid var(--line); background:var(--bg); color:var(--ink); box-shadow:var(--shadow-frame); font-family:var(--ui); transition:background .3s, color .3s}
+.fbar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; border-bottom:1px solid var(--line); background:var(--surface); font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+.fbar .dots{display:flex; gap:6px} .fbar .dots i{width:9px; height:9px; border-radius:50%; background:var(--line)}
+.fbar .url{flex:1; text-align:center}
+.dk{font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; padding:5px 10px; border-radius:var(--r-chip); border:1px solid var(--line); background:var(--bg); color:var(--ink)}
+.dk[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+.caption{font-size:13px; color:var(--muted); margin-top:10px}
+
+/* ====================================================================
+   DIRECTION 1 · CALM RETRO-FUTURE
+   ==================================================================== */
+.d1{
+  --bg:#E9EDEA; --surface:#F7F8F5; --ink:#1D2833; --muted:#55626D; --line:#CDD5D2;
+  --accent:#2B6A62; --on-accent:#FFFFFF; --soft:#A7D0C5; --sun:#F2C879; --lilac:#C6C1E6;
+  --display:"Lexend Exa", "Lexend", "Avenir Next", system-ui, sans-serif;
+  --ui:"Lexend", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --mono:"DM Mono", ui-monospace, Menlo, monospace;
+  --r-card:22px; --r-tile:16px; --r-chip:999px; --r-frame:24px; --bullet-r:50%;
+  --shadow-frame:0 1px 0 rgba(29,40,51,.04), 0 24px 48px -28px rgba(29,40,51,.28);
+}
+.d1 .is-dark{ --bg:#121A21; --surface:#1B252E; --ink:#E6ECE9; --muted:#9AA8B2; --line:#2C3944; --accent:#7FC2B4; --on-accent:#0E1A18; --soft:#2F5A54; --sun:#E9BE6E; --lilac:#4D4877 }
+.d1 h2{font-weight:300; letter-spacing:-.035em}
+.d1 .spec .big{font-weight:300; letter-spacing:-.04em}
+
+/* D1 app */
+.a1{display:grid; grid-template-columns:200px minmax(0,1fr) 300px; min-height:640px}
+.a1 .side{padding:22px 16px; display:flex; flex-direction:column; gap:22px; border-right:1px solid var(--line)}
+.a1 .brand{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12px; letter-spacing:.04em}
+.a1 .brand svg{width:28px; height:28px}
+.a1 .nav{display:grid; gap:4px}
+.a1 .nav a{display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:999px; font-size:14px; color:var(--ink); text-decoration:none}
+.a1 .nav a svg{width:18px; height:18px}
+.a1 .nav a.on{background:var(--surface); box-shadow:inset 0 0 0 1px var(--line)}
+.a1 .quiet{margin-top:auto; font-size:12.5px; color:var(--muted); display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:16px; background:var(--surface)}
+.a1 .quiet i{width:28px; height:16px; border-radius:99px; background:var(--accent); position:relative; flex:none}
+.a1 .quiet i::after{content:""; position:absolute; right:2px; top:2px; width:12px; height:12px; border-radius:50%; background:var(--on-accent)}
+.a1 main{padding:30px 34px; display:grid; gap:22px; align-content:start}
+.a1 .when{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--muted)}
+.a1 h3{font-family:var(--display); font-weight:300; font-size:30px; letter-spacing:-.035em; line-height:1.1; margin-top:8px}
+.a1 .sub{color:var(--muted); font-size:14.5px; margin-top:6px}
+.a1 .resume{display:grid; grid-template-columns:150px minmax(0,1fr); background:var(--surface); border-radius:24px; overflow:hidden; border:1px solid var(--line)}
+.a1 .resume .art{background:var(--lilac); position:relative}
+.a1 .resume .art svg{position:absolute; inset:0; width:100%; height:100%}
+.a1 .resume .txt{padding:18px 20px; display:grid; gap:6px}
+.a1 .resume h4{font-size:18px; font-weight:500}
+.a1 .row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.a1 .btn{border:0; border-radius:999px; padding:9px 16px; font-size:13.5px; font-weight:500; background:var(--accent); color:var(--on-accent)}
+.a1 .btn.ghost{background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--line)}
+.a1 .list{display:grid; gap:8px}
+.a1 .lh{display:flex; justify-content:space-between; align-items:baseline}
+.a1 .lh b{font-weight:500; font-size:15px}
+.a1 .task{display:grid; grid-template-columns:22px minmax(0,1fr) auto auto; gap:12px; align-items:center; padding:11px 14px; background:var(--surface); border-radius:999px; border:1px solid var(--line); font-size:14px}
+.a1 .task .ck{width:20px; height:20px; border-radius:50%; border:1.5px solid var(--muted)}
+.a1 .task.done{background:transparent}
+.a1 .task.done .ck{background:var(--accent); border-color:var(--accent); box-shadow:inset 0 0 0 4px var(--bg)}
+.a1 .task.done .t{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--line)}
+.a1 .pill{font-family:var(--mono); font-size:11px; padding:3px 8px; border-radius:99px}
+.a1 .p-sun{background:var(--sun); color:#1D2833} .a1 .p-lil{background:var(--lilac); color:#1D2833} .a1 .p-soft{background:var(--soft); color:#1D2833}
+.a1 .is-dark .p-sun, .is-dark.a1 .p-sun{color:#1D2833}
+.a1 .est{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+.a1 .carried{font-size:13px; color:var(--muted); display:flex; gap:8px; align-items:center}
+.a1 .carried::before{content:""; width:14px; height:7px; border-radius:7px 7px 0 0; background:var(--sun)}
+.a1 .right{padding:30px 22px; display:grid; gap:16px; align-content:start; border-left:1px solid var(--line)}
+.a1 .panel{background:var(--surface); border-radius:22px; border:1px solid var(--line); padding:18px}
+.a1 .panel .tag{display:block; margin-bottom:10px}
+.a1 .dial{display:grid; justify-items:center; gap:4px; text-align:center}
+.a1 .dial svg{width:170px; height:170px}
+.a1 .dial .time{font-family:var(--display); font-weight:300; font-size:34px; letter-spacing:-.04em; margin-top:-112px; margin-bottom:58px}
+.a1 .rhythm{display:flex; gap:8px; margin:6px 0 10px}
+.a1 .rhythm i{width:24px; height:24px; border-radius:50%; border:1.5px solid var(--line)}
+.a1 .rhythm i.y{background:var(--soft); border-color:var(--soft)}
+.a1 .energy{display:flex; gap:6px; margin:8px 0}
+.a1 .energy span{flex:1; text-align:center; font-size:12.5px; padding:7px 0; border-radius:99px; box-shadow:inset 0 0 0 1px var(--line)}
+.a1 .energy span.on{background:var(--ink); color:var(--bg); box-shadow:none}
+
+/* D1 hero */
+.h1{position:relative; padding:28px 48px 0; overflow:hidden; min-height:600px}
+.h1 nav{display:flex; align-items:center; justify-content:space-between; font-size:14px}
+.h1 nav .l{display:flex; gap:28px; color:var(--muted)}
+.h1 .copy{max-width:640px; margin-top:76px; position:relative; z-index:2}
+.h1 .k{font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+.h1 h3{font-family:var(--display); font-weight:300; font-size:68px; line-height:1; letter-spacing:-.05em; margin-top:18px}
+.h1 p{font-size:18px; color:var(--muted); max-width:46ch; margin-top:20px}
+.h1 .row{display:flex; gap:10px; margin-top:28px}
+.h1 .btn{border:0; border-radius:999px; padding:13px 22px; font-size:15px; font-weight:500; background:var(--accent); color:var(--on-accent)}
+.h1 .btn.ghost{background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink)}
+.h1 .scene{position:absolute; right:-40px; bottom:0; width:560px; height:520px}
+.h1 .float{position:absolute; right:110px; bottom:150px; width:290px; background:var(--surface); border-radius:22px; padding:16px; box-shadow:0 20px 40px -24px rgba(29,40,51,.35); z-index:3; display:grid; gap:6px; font-size:13px}
+.h1 .float b{font-size:15px; font-weight:500}
+.h1 .float .bar{height:6px; border-radius:6px; background:var(--line); overflow:hidden} .h1 .float .bar i{display:block; width:60%; height:100%; background:var(--accent)}
+.h1 .proof{position:absolute; left:48px; bottom:26px; display:flex; gap:22px; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em}
+
+/* D1 motion demo */
+.m1 .cards{display:grid; gap:10px; margin-top:34px}
+.m1 .cards div{background:var(--bg); border-radius:999px; padding:12px 16px; font-size:14px; display:flex; justify-content:space-between}
+.m1.go .cards div{animation:rise .48s cubic-bezier(.22,1,.36,1) both}
+.m1.go .cards div:nth-child(2){animation-delay:.08s} .m1.go .cards div:nth-child(3){animation-delay:.16s}
+@keyframes rise{from{transform:translateY(10px); opacity:.0} to{transform:none; opacity:1}}
+.m1 .breath{position:absolute; right:22px; bottom:20px; width:86px; height:86px; border-radius:50%; background:var(--soft); display:grid; place-items:center; font-family:var(--mono); font-size:10.5px; animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.92)} 50%{transform:scale(1)}}
+
+/* ====================================================================
+   DIRECTION 2 · MOMENTUM & CONTINUITY
+   ==================================================================== */
+.d2{
+  --bg:#F1F2F5; --surface:#FFFFFF; --ink:#141A2E; --muted:#5A6278; --line:#D9DCE5;
+  --accent:#2F44B0; --on-accent:#FFFFFF; --soft:#DCE1FA; --trail:#F0B33F; --moss:#3E7858;
+  --display:"Sora", "Avenir Next", system-ui, sans-serif;
+  --ui:"Manrope", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r-card:14px; --r-tile:12px; --r-chip:8px; --r-frame:16px; --bullet-r:50%;
+  --shadow-frame:0 30px 60px -36px rgba(20,26,46,.35);
+}
+.d2 .is-dark{ --bg:#0F1322; --surface:#171C30; --ink:#E8EAF3; --muted:#A1A8C0; --line:#29304A; --accent:#8C9BFF; --on-accent:#0F1322; --soft:#232B4D; --trail:#F2BC55; --moss:#79B897 }
+.d2 h2{font-weight:600; letter-spacing:-.045em}
+.d2 .spec .big{font-weight:600; letter-spacing:-.05em}
+
+.a2{min-height:640px; display:grid; grid-template-rows:auto minmax(0,1fr)}
+.a2 .top{display:flex; align-items:center; gap:28px; padding:14px 24px; border-bottom:1px solid var(--line); background:var(--surface)}
+.a2 .brand{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12px}
+.a2 .brand svg{width:26px; height:26px}
+.a2 .tabs{display:flex; gap:4px; font-size:14px; font-weight:600}
+.a2 .tabs span{padding:7px 12px; border-radius:8px; color:var(--muted)}
+.a2 .tabs span.on{color:var(--accent); background:var(--soft)}
+.a2 .top .sp{flex:1}
+.a2 .search{font-size:13px; color:var(--muted); border:1px solid var(--line); border-radius:8px; padding:7px 12px; width:220px}
+.a2 .av{width:30px; height:30px; border-radius:50%; background:var(--trail); color:#141A2E; display:grid; place-items:center; font-weight:700; font-size:12px}
+.a2 .grid{display:grid; grid-template-columns:250px minmax(0,1fr) 290px}
+.a2 .thread{padding:22px 18px 22px 24px; border-right:1px solid var(--line)}
+.a2 .thread .tag{display:block; margin-bottom:14px}
+.a2 .tl{position:relative; display:grid; gap:18px; padding-left:28px}
+.a2 .tl svg.line{position:absolute; left:0; top:0; width:20px; height:100%}
+.a2 .tl .n{position:relative; font-size:13.5px; line-height:1.3}
+.a2 .tl .n::before{content:""; position:absolute; left:-25px; top:3px; width:12px; height:12px; border-radius:50%; background:var(--surface); border:2px solid var(--accent)}
+.a2 .tl .n.done::before{background:var(--accent)}
+.a2 .tl .n.paused::before{border-style:dashed}
+.a2 .tl .n.now{font-weight:700}
+.a2 .tl .n.now::before{background:var(--trail); border-color:var(--trail); box-shadow:0 0 0 5px color-mix(in srgb, var(--trail) 28%, transparent)}
+.a2 .tl .n.later{color:var(--muted)}
+.a2 .tl .n.later::before{border-color:var(--line)}
+.a2 .tl time{display:block; font-family:var(--mono); font-size:11px; color:var(--muted); font-weight:400}
+.a2 main{padding:26px 28px; display:grid; gap:20px; align-content:start}
+.a2 h3{font-family:var(--display); font-weight:600; font-size:28px; letter-spacing:-.04em}
+.a2 .cont{background:var(--surface); border:1px solid var(--line); border-radius:14px; display:grid; grid-template-columns:minmax(0,1fr) 220px; overflow:hidden}
+.a2 .cont .txt{padding:20px 22px; display:grid; gap:10px; align-content:start}
+.a2 .cont h4{font-family:var(--display); font-size:21px; font-weight:600; letter-spacing:-.03em}
+.a2 .cont .orb{background:var(--soft); position:relative}
+.a2 .cont .orb svg{position:absolute; inset:0; width:100%; height:100%}
+.a2 .ctx{display:flex; flex-wrap:wrap; gap:6px}
+.a2 .ctx span{font-family:var(--mono); font-size:11.5px; padding:4px 8px; border-radius:6px; border:1px solid var(--line)}
+.a2 .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.a2 .btn{border:0; border-radius:8px; padding:10px 16px; font-size:14px; font-weight:700; background:var(--accent); color:var(--on-accent)}
+.a2 .link{font-size:13.5px; font-weight:600; color:var(--muted)}
+.a2 .next{display:grid; gap:0; background:var(--surface); border:1px solid var(--line); border-radius:14px}
+.a2 .next .it{display:grid; grid-template-columns:28px minmax(0,1fr) auto; gap:12px; align-items:center; padding:13px 18px; border-top:1px solid var(--line); font-size:14px}
+.a2 .next .it:first-child{border-top:0}
+.a2 .next .it i{width:18px; height:18px; border-radius:50%; border:2px solid var(--line)}
+.a2 .next .it small{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+.a2 .next .it .t span{display:block; font-size:12px; color:var(--muted)}
+.a2 .right{padding:26px 22px; display:grid; gap:16px; align-content:start; border-left:1px solid var(--line)}
+.a2 .panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px}
+.a2 .panel .tag{display:block; margin-bottom:8px}
+.a2 .focus{display:grid; justify-items:center; text-align:center}
+.a2 .focus svg{width:190px; height:190px}
+.a2 .focus .t{font-family:var(--display); font-size:34px; font-weight:600; letter-spacing:-.05em; margin-top:-120px; margin-bottom:76px}
+.a2 .spark svg{width:100%; height:80px; display:block}
+
+.h2x{position:relative; min-height:600px; overflow:hidden; background:var(--bg)}
+.h2x nav{display:flex; align-items:center; justify-content:space-between; padding:22px 44px; font-size:14px; font-weight:600}
+.h2x nav .l{display:flex; gap:26px; color:var(--muted)}
+.h2x .copy{position:relative; z-index:2; padding:56px 44px 0; max-width:620px}
+.h2x .k{display:inline-flex; gap:8px; align-items:center; font-family:var(--mono); font-size:12px; color:var(--accent)}
+.h2x .k i{width:8px; height:8px; border-radius:50%; background:var(--trail)}
+.h2x h3{font-family:var(--display); font-weight:600; font-size:72px; letter-spacing:-.06em; line-height:.98; margin-top:16px}
+.h2x p{font-size:18px; color:var(--muted); margin-top:20px; max-width:44ch}
+.h2x .row{display:flex; gap:12px; align-items:center; margin-top:28px}
+.h2x .btn{border:0; border-radius:10px; padding:13px 20px; font-size:15px; font-weight:700; background:var(--accent); color:var(--on-accent)}
+.h2x .link{font-weight:700; font-size:15px}
+.h2x .orbits{position:absolute; right:-80px; top:40px; width:680px; height:600px}
+.h2x .chipf{position:absolute; z-index:3; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-size:13px; box-shadow:0 14px 30px -18px rgba(20,26,46,.35)}
+.h2x .chipf small{display:block; font-family:var(--mono); font-size:10.5px; color:var(--muted)}
+
+.m2 svg{width:100%; height:200px; display:block; margin-top:26px}
+.m2 .seg{transition:stroke-dashoffset .7s cubic-bezier(.65,0,.35,1)}
+.m2 .btns{display:flex; gap:8px; margin-top:6px}
+.m2 .btns button{font-family:var(--mono); font-size:11.5px; padding:6px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink)}
+
+/* ====================================================================
+   DIRECTION 3 · WARM INTELLIGENT WORKSPACE
+   ==================================================================== */
+.d3{
+  --bg:#ECE7DF; --surface:#FBF9F6; --ink:#27231F; --muted:#6A625A; --line:#D9D1C5;
+  --accent:#36624A; --on-accent:#FFFFFF; --soft:#D5E2D3; --honey:#E5B04B; --plum:#6E4A67; --heather:#E8DAE3;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --ui:"Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono:"Spline Sans Mono", ui-monospace, Menlo, monospace;
+  --r-card:18px; --r-tile:14px; --r-chip:10px; --r-frame:20px; --bullet-r:3px;
+  --lift:0 1px 0 rgba(39,35,31,.06), 0 2px 4px rgba(39,35,31,.05), 0 12px 24px -14px rgba(39,35,31,.22);
+  --shadow-frame:0 2px 0 rgba(39,35,31,.05), 0 28px 50px -30px rgba(39,35,31,.4);
+}
+.d3 .is-dark{ --bg:#1C1916; --surface:#26221E; --ink:#EEE8DF; --muted:#ADA398; --line:#3A342D; --accent:#8DC2A2; --on-accent:#1C1916; --soft:#2E3D33; --honey:#E7B85A; --plum:#C59BBC; --heather:#3B2E37; --lift:0 1px 0 rgba(0,0,0,.3), 0 12px 24px -14px rgba(0,0,0,.6) }
+.d3 h2{font-weight:600; font-variation-settings:"wdth" 88; letter-spacing:-.035em}
+.d3 .spec .big{font-weight:600; font-variation-settings:"wdth" 88; letter-spacing:-.04em}
+.d3 .card, .d3 .sym, .d3 .icons figure{box-shadow:var(--lift); border-color:transparent}
+
+.a3{display:grid; grid-template-columns:210px minmax(0,1fr); min-height:660px}
+.a3 .side{padding:20px 14px; display:flex; flex-direction:column; gap:18px; background:color-mix(in srgb, var(--bg) 70%, var(--line))}
+.a3 .brand{display:flex; gap:10px; align-items:center; font-family:var(--mono); font-size:12px; padding:0 6px}
+.a3 .brand svg{width:28px; height:28px}
+.a3 .nav{display:grid; gap:2px}
+.a3 .nav a{display:flex; gap:10px; align-items:center; padding:9px 10px; border-radius:10px; font-size:14px; font-weight:500; color:var(--ink); text-decoration:none}
+.a3 .nav a svg{width:20px; height:20px}
+.a3 .nav a.on{background:var(--surface); box-shadow:var(--lift)}
+.a3 .spaces{display:grid; gap:6px; font-size:13px; padding:0 10px}
+.a3 .spaces b{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:400}
+.a3 .spaces span{display:flex; gap:8px; align-items:center}
+.a3 .spaces i{width:10px; height:10px; border-radius:3px}
+.a3 main{padding:28px 30px; display:grid; gap:18px; align-content:start}
+.a3 .hd{display:flex; justify-content:space-between; align-items:end; gap:20px}
+.a3 h3{font-family:var(--display); font-weight:600; font-variation-settings:"wdth" 88; font-size:34px; letter-spacing:-.035em}
+.a3 .hd p{color:var(--muted); font-size:14.5px}
+.a3 .open{font-family:var(--mono); font-size:12px; padding:7px 10px; border-radius:10px; background:var(--surface); box-shadow:var(--lift)}
+.a3 .g{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) 230px; gap:16px}
+.a3 .c{background:var(--surface); border-radius:18px; box-shadow:var(--lift); padding:18px; display:grid; gap:10px; align-content:start; position:relative}
+.a3 .c .tag{display:flex; align-items:center; gap:6px}
+.a3 .c h4{font-family:var(--display); font-size:20px; font-weight:600; font-variation-settings:"wdth" 90; letter-spacing:-.02em}
+.a3 .bm{grid-row:span 2; padding-top:22px}
+.a3 .bm::before{content:""; position:absolute; right:22px; top:0; width:18px; height:30px; background:var(--plum); clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
+.a3 .snap{display:grid; gap:8px; font-size:13.5px}
+.a3 .snap div{display:grid; grid-template-columns:96px minmax(0,1fr); gap:8px; padding:8px 10px; border-radius:10px; background:var(--bg)}
+.a3 .snap div span:first-child{color:var(--muted); font-size:12px}
+.a3 .snap em{font-style:normal; background:var(--heather); padding:0 4px; border-radius:4px}
+.a3 .row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.a3 .btn{border:0; border-radius:12px; padding:10px 16px; font-size:14px; font-weight:600; background:var(--accent); color:var(--on-accent); box-shadow:0 1px 0 rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.18)}
+.a3 .btn.soft{background:var(--bg); color:var(--ink); box-shadow:inset 0 0 0 1px var(--line)}
+.a3 .assist{background:var(--soft)}
+.a3 .assist p{font-size:14px}
+.a3 .shelf .it{display:grid; grid-template-columns:24px minmax(0,1fr) auto; gap:10px; align-items:center; padding:9px 0; border-top:1px dashed var(--line); font-size:14px}
+.a3 .shelf .it:first-of-type{border-top:0}
+.a3 .shelf .cb{width:22px; height:22px; border-radius:7px; background:var(--bg); box-shadow:inset 0 1px 2px rgba(39,35,31,.18)}
+.a3 .shelf .it.done .cb{background:var(--accent); box-shadow:none; position:relative}
+.a3 .shelf .it.done .cb::after{content:""; position:absolute; left:7px; top:4px; width:6px; height:10px; border:solid var(--on-accent); border-width:0 2px 2px 0; transform:rotate(45deg)}
+.a3 .shelf .it.done .t{color:var(--muted)}
+.a3 .shelf small{font-family:var(--mono); font-size:11px; color:var(--muted)}
+.a3 .knob{display:grid; justify-items:center; gap:8px}
+.a3 .knob svg{width:140px; height:140px}
+.a3 .seg{display:flex; background:var(--bg); border-radius:10px; padding:3px; font-size:12.5px; font-weight:600}
+.a3 .seg span{padding:5px 10px; border-radius:8px; color:var(--muted)}
+.a3 .seg span.on{background:var(--surface); color:var(--ink); box-shadow:var(--lift)}
+.a3 .week{display:grid; grid-template-columns:repeat(7,1fr); gap:5px}
+.a3 .week i{aspect-ratio:1; border-radius:7px; background:var(--bg); box-shadow:inset 0 1px 2px rgba(39,35,31,.12)}
+.a3 .week i.y{background:var(--honey); box-shadow:none}
+.a3 .wk{display:grid; grid-template-columns:repeat(7,1fr); gap:5px; font-family:var(--mono); font-size:10px; color:var(--muted); text-align:center}
+
+.h3x{position:relative; min-height:600px; overflow:hidden; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:20px; padding:0 48px 40px}
+.h3x nav{grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; padding:22px 0; font-size:14px; font-weight:500}
+.h3x nav .l{display:flex; gap:26px; color:var(--muted)}
+.h3x .k{font-family:var(--mono); font-size:12px; color:var(--plum); letter-spacing:.04em}
+.h3x h3{font-family:var(--display); font-weight:600; font-variation-settings:"wdth" 84; font-size:70px; letter-spacing:-.045em; line-height:.98; margin-top:16px}
+.h3x h3 span{color:var(--accent)}
+.h3x p{font-size:18px; color:var(--muted); margin-top:20px; max-width:42ch}
+.h3x .row{display:flex; gap:10px; margin-top:28px}
+.h3x .btn{border:0; border-radius:14px; padding:14px 22px; font-size:15px; font-weight:600; background:var(--accent); color:var(--on-accent); box-shadow:0 2px 0 rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.2)}
+.h3x .btn.soft{background:var(--surface); color:var(--ink); box-shadow:var(--lift)}
+.h3x .desk{position:relative; height:470px}
+.h3x .desk .c{position:absolute; background:var(--surface); border-radius:20px; box-shadow:var(--lift); padding:18px; display:grid; gap:8px; font-size:13.5px}
+.h3x .desk .c b{font-family:var(--display); font-size:18px; font-weight:600}
+
+.m3 .stack{position:relative; height:190px; margin-top:34px}
+.m3 .stack button{position:absolute; left:50%; width:240px; margin-left:-120px; text-align:left; border:0; border-radius:16px; padding:16px; background:var(--bg); color:var(--ink); box-shadow:var(--lift); font-size:14px; transition:transform .28s cubic-bezier(.3,.7,.4,1), box-shadow .28s, background .28s}
+.m3 .stack button:active{transform:translateY(var(--y)) scale(.98) !important}
+.m3 .stack button b{display:block; font-family:var(--display); font-size:17px}
+.m3 .stack button small{font-family:var(--mono); font-size:11px; color:var(--muted)}
+
+/* ---------- Compare (chrome) ---------- */
+.compare{padding-block:80px 40px}
+.compare h2{font-size:clamp(30px,4vw,44px); letter-spacing:-.03em; font-weight:700; margin-top:10px}
+.tbl{overflow-x:auto; margin-top:32px; border:1px solid var(--c-line); border-radius:14px; background:var(--c-card)}
+table{border-collapse:collapse; width:100%; min-width:860px; font-size:14px}
+th,td{text-align:left; vertical-align:top; padding:16px 18px; border-top:1px solid var(--c-line)}
+thead th{border-top:0; font-size:15px}
+thead th small{display:block; font-weight:500; color:var(--c-muted); font-size:12.5px}
+tbody th{font-family:var(--f-chrome-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--c-muted); font-weight:500; width:150px}
+td.rec{background:color-mix(in srgb, var(--c-focus) 6%, transparent)}
+.dots5{display:inline-flex; gap:4px; vertical-align:middle; margin-right:8px}
+.dots5 i{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--c-fg)}
+.dots5 i.f{background:var(--c-fg)}
+.recbox{margin-top:36px; display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:20px}
+.recbox .main{background:var(--c-card); border:1.5px solid var(--c-fg); border-radius:16px; padding:28px; display:grid; gap:14px}
+.recbox h3{font-size:26px; letter-spacing:-.02em}
+.recbox .side{background:var(--c-card); border:1px solid var(--c-line); border-radius:16px; padding:24px; display:grid; gap:12px; align-content:start}
+.recbox ol, .recbox ul{margin:0; padding-left:20px; display:grid; gap:8px}
+.await{display:inline-flex; gap:8px; align-items:center; font-family:var(--f-chrome-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding:6px 12px; border-radius:999px; background:var(--c-chip); width:fit-content}
+.await i{width:8px; height:8px; border-radius:50%; background:#C98A12}
+footer{padding-block:28px 56px; color:var(--c-muted); font-size:13px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:900px){
+  .intro-grid, .dir .head, .two, .motion, .recbox{grid-template-columns:minmax(0,1fr)}
+  .blk{grid-template-columns:minmax(0,1fr); gap:16px}
+  .jump{grid-template-columns:minmax(0,1fr)}
+  .pal{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .icons{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mood{grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:130px}
+  .motifs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .syms, .surf{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){ .pal{grid-template-columns:repeat(2,minmax(0,1fr))} .mood .w2{grid-column:span 2} }
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation:none !important; transition:none !important}
+}
+</style>
+
+<!-- ============================== INTRO ============================== -->
+<header class="intro gut">
+  <div class="wrap">
+    <div class="intro-grid">
+      <div>
+        <div class="eyebrow">Visual identity · Exploration round 1 · 19 November 2026</div>
+        <h1>Three directions for <span class="ph">[PRODUCT NAME]</span></h1>
+        <p class="lede">A calmer, more human productivity workspace. Each direction below is a complete visual world: mood, colour, type, symbol, icons, surfaces, motion, a product screen and a landing hero. They share the same content, so you can compare the identities and not the copy.</p>
+      </div>
+      <aside class="brief" aria-label="Brief">
+        <div class="eyebrow">The brief in one line</div>
+        <div class="phil">Progress without pressure.</div>
+        <div class="chips">
+          <span class="chip">Premium, not sterile</span><span class="chip">Distinctive, not busy</span><span class="chip">Warm, not childish</span><span class="chip">Retro-future, not kitsch</span><span class="chip">Usability before decoration</span>
+        </div>
+        <p class="note">The Clay reference images did not come through, so this round works from the written brief. Every mark, palette and layout here is original. The wordmark is a placeholder and is not designed yet.</p>
+      </aside>
+    </div>
+    <div class="jump">
+      <a href="#retro"><div class="jsw"><i style="background:#E9EDEA"></i><i style="background:#A7D0C5"></i><i style="background:#2B6A62"></i><i style="background:#F2C879"></i><i style="background:#C6C1E6"></i></div><b>1 · Calm Retro-Future</b><span>Soft geometry, wide type, a rising-horizon symbol.</span></a>
+      <a href="#momentum"><div class="jsw"><i style="background:#F1F2F5"></i><i style="background:#DCE1FA"></i><i style="background:#2F44B0"></i><i style="background:#F0B33F"></i><i style="background:#141A2E"></i></div><b>2 · Momentum &amp; Continuity</b><span>Orbits, threads and a marigold "you are here" dot.</span></a>
+      <a href="#workspace"><div class="jsw"><i style="background:#ECE7DF"></i><i style="background:#D5E2D3"></i><i style="background:#36624A"></i><i style="background:#E5B04B"></i><i style="background:#6E4A67"></i></div><b>3 · Warm Intelligent Workspace</b><span>Tactile cards, a bookmark, a quiet assistant.</span></a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc gut" aria-label="Sections">
+  <div class="wrap">
+    <a href="#retro">1 · Calm Retro-Future</a>
+    <a href="#momentum">2 · Momentum &amp; Continuity</a>
+    <a href="#workspace">3 · Warm Intelligent Workspace</a>
+    <a href="#compare">Comparison</a>
+    <a href="#recommendation">Recommendation</a>
+  </div>
+</nav>
+
+<!-- SVG symbol defs reused across sections -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="s1-horizon" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="20" fill="var(--accent)"/><path d="M14 40a18 18 0 0 1 36 0z" fill="var(--sun)"/><rect x="12" y="43" width="40" height="4" rx="2" fill="var(--surface)"/></symbol>
+    <symbol id="s2-continuum" viewBox="0 0 64 64"><path d="M53.67 28.18A22 22 0 1 1 46.14 15.15" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><circle cx="51.6" cy="20.5" r="5" fill="var(--trail)"/></symbol>
+    <symbol id="s3-bookmark" viewBox="0 0 64 64"><rect x="6" y="10" width="40" height="46" rx="11" fill="var(--soft)"/><rect x="16" y="6" width="42" height="50" rx="11" fill="var(--accent)"/><path d="M42 6h6v20l-3-2.4-3 2.4z" fill="var(--honey)"/></symbol>
+  </defs>
+</svg>
+
+<!-- ======================================================================
+     DIRECTION 1 · CALM RETRO-FUTURE
+     ====================================================================== -->
+<section class="dir d1 gut" id="retro">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="num">Direction 1 of 3</div>
+        <h2>Calm Retro&#8209;Future</h2>
+      </div>
+      <p class="thesis">The future as the optimists of the 1970s imagined it, built with today's restraint. Soft pastel daylight, wide unhurried type and objects with generous radii. It feels like a well-made instrument that is on your side.</p>
+    </div>
+
+    <!-- Moodboard -->
+    <div class="blk">
+      <div class="lbl">Moodboard<b>Morning horizon</b></div>
+      <div class="body">
+        <div class="mood">
+          <div class="w2 h2" style="background:#C6C1E6">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="#C6C1E6"/><circle cx="200" cy="210" r="110" fill="#F2C879"/><rect x="0" y="210" width="400" height="90" fill="#A7D0C5"/><rect x="0" y="206" width="400" height="8" fill="#F7F8F5"/><rect x="0" y="236" width="400" height="3" fill="#F7F8F5" opacity=".7"/><rect x="0" y="258" width="400" height="2" fill="#F7F8F5" opacity=".5"/></svg>
+            <span class="cap" style="color:#1D2833">Horizon at 06:40 · first light</span>
+          </div>
+          <div style="background:#2B6A62; color:#F7F8F5">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#A7D0C5" stroke-width="1.5" opacity=".7"><circle cx="160" cy="20" r="30"/><circle cx="160" cy="20" r="55"/><circle cx="160" cy="20" r="80"/><circle cx="160" cy="20" r="105"/></g></svg>
+            <span class="cap">Observatory dome · concentric calm</span>
+          </div>
+          <div style="background:#F7F8F5; color:#1D2833; justify-content:space-between">
+            <span style="font-family:'Lexend Exa',sans-serif; font-weight:300; font-size:64px; letter-spacing:-.05em; line-height:1">Aa</span>
+            <span class="cap" style="color:#55626D">Wide, light, unhurried</span>
+          </div>
+          <div style="background:#E9EDEA; background-image:radial-gradient(#1D2833 1.1px, transparent 1.3px); background-size:12px 12px; color:#1D2833">
+            <span class="cap" style="background:#E9EDEA; padding:3px 6px; border-radius:6px; width:fit-content">Perforated aluminium</span>
+          </div>
+          <div style="background:#F2C879; color:#1D2833">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect x="30" y="20" width="36" height="96" rx="18" fill="#F7F8F5"/><circle cx="48" cy="44" r="12" fill="#1D2833"/><rect x="82" y="20" width="36" height="96" rx="18" fill="#F7F8F5"/><circle cx="100" cy="70" r="12" fill="#2B6A62"/><rect x="134" y="20" width="36" height="96" rx="18" fill="#F7F8F5"/><circle cx="152" cy="92" r="12" fill="#C6C1E6"/></svg>
+            <span class="cap">Soft-cornered controls</span>
+          </div>
+          <div class="w2" style="background:#1D2833; color:#E9EDEA; justify-content:space-between">
+            <span style="font-family:'Lexend',sans-serif; font-weight:300; font-size:24px; line-height:1.25; letter-spacing:-.01em">unhurried · lucid · optimistic · daylight · well-made</span>
+            <span class="cap" style="color:#A7D0C5">Mood words</span>
+          </div>
+          <div style="background:#A7D0C5; color:#1D2833">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><path d="M0 150V96c40-24 70-24 100 0s60 24 100 0v54z" fill="#F7F8F5" opacity=".6"/><path d="M0 150v-30c40-18 70-18 100 0s60 18 100 0v30z" fill="#2B6A62" opacity=".35"/></svg>
+            <span class="cap">Frosted acrylic, sea glass</span>
+          </div>
+        </div>
+        <div class="two">
+          <div class="prose">
+            <p><strong>Rationale.</strong> Retro-futurism usually goes loud: chrome, neon, synthwave suns. We take the other path, the quiet optimism of mid-century industrial design and early space-age signage, where the future felt clean, legible and kind. That fits a product whose promise is calm.</p>
+            <p>The rising horizon is the central idea. Work is a horizon you move toward at your own pace, never a wall of overdue items. Pastels carry warmth, and a single deep sea-glass green does the serious work of buttons, focus and links.</p>
+          </div>
+          <div class="prose">
+            <p><strong>Photography and imagery.</strong> Daylight, pale skies, architecture with large radii, desk objects with soft forms. People shown resting or thinking, never staring stressed at a screen. No stock "productivity" clichés.</p>
+            <p><strong>Feels like:</strong> a well-made radio, an airport at 6am, a clear schedule.<br><strong>Never:</strong> sci-fi HUDs, neon grids, chrome type, pixel nostalgia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colour -->
+    <div class="blk">
+      <div class="lbl">Colour<b>Pastel daylight, one deep anchor</b></div>
+      <div class="body">
+        <div class="pal">
+          <div class="sw"><div class="chipc" style="background:#E9EDEA"></div><div class="meta"><b>Mist</b><code>#E9EDEA</code><small>App background</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#F7F8F5"></div><div class="meta"><b>Porcelain</b><code>#F7F8F5</code><small>Surfaces, cards</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#1D2833"></div><div class="meta"><b>Orbit Slate</b><code>#1D2833</code><small>Text, icons</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#2B6A62"></div><div class="meta"><b>Sea Glass Deep</b><code>#2B6A62</code><small>Primary actions</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#A7D0C5"></div><div class="meta"><b>Sea Glass</b><code>#A7D0C5</code><small>Progress, calm states</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#F2C879; display:flex"><i style="flex:1"></i><i style="flex:1; background:#C6C1E6"></i></div><div class="meta"><b>Soft Sun · Dusk Lilac</b><code>#F2C879 · #C6C1E6</code><small>Tags, illustration</small></div></div>
+        </div>
+        <div class="dkrow" aria-label="Dark mode palette">
+          <div style="background:#121A21; color:#9AA8B2">Night Mist<br>#121A21</div>
+          <div style="background:#1B252E; color:#9AA8B2">Deep Porcelain<br>#1B252E</div>
+          <div style="background:#E6ECE9; color:#1D2833">Moonlight<br>#E6ECE9</div>
+          <div style="background:#7FC2B4; color:#0E1A18">Sea Glass Lit<br>#7FC2B4</div>
+          <div style="background:#E9BE6E; color:#1D2833">Low Sun<br>#E9BE6E</div>
+          <div style="background:#4D4877; color:#E6ECE9">Night Lilac<br>#4D4877</div>
+        </div>
+        <div class="contrast"><span>Slate on Mist 12.7:1</span><span>White on Sea Glass Deep 6.3:1</span><span>Muted #55626D on Porcelain 5.9:1</span><span>Slate on Sun 9.5:1</span><span>Dark: Moonlight on Night 14.7:1</span></div>
+        <p class="small">Rule: pastels are fills, never text. Status uses shape and words before colour. There is no "overdue red" anywhere in the system.</p>
+      </div>
+    </div>
+
+    <!-- Type -->
+    <div class="blk">
+      <div class="lbl">Typography<b>Lexend Exa · Lexend · DM Mono</b></div>
+      <div class="body">
+        <div class="spec">
+          <div class="big" style="font-size:clamp(40px,6vw,78px)">Resume, gently.</div>
+          <div class="two">
+            <div class="card prose">
+              <span class="tag">Display · Lexend Exa 300 (OFL)</span>
+              <p>A wide, light geometric face with an unmistakable mid-century-future stance. Used only for headlines, greetings and the focus timer, always at 28px and above, tracked tight.</p>
+            </div>
+            <div class="card prose">
+              <span class="tag">Interface · Lexend 400/500 (OFL)</span>
+              <p>The same family at normal width, designed to reduce visual stress and improve reading fluency. One DNA from headline to checkbox label. <span style="font-family:var(--mono); font-size:13px">DM Mono</span> handles times, dates and small labels.</p>
+            </div>
+          </div>
+          <div class="scale">
+            <div><code>Display L · 68/68</code><span style="font-family:var(--display); font-weight:300; font-size:44px; letter-spacing:-.045em; line-height:1">Progress without pressure</span></div>
+            <div><code>Display S · 30/34</code><span style="font-family:var(--display); font-weight:300; font-size:30px; letter-spacing:-.035em">Good afternoon, Sam.</span></div>
+            <div><code>Title · 18/26 · 500</code><span style="font-size:18px; font-weight:500">Q1 roadmap narrative</span></div>
+            <div><code>Body · 15/24 · 400</code><span style="font-size:15px">Three things matter today. The rest can wait, and that's fine.</span></div>
+            <div><code>Label · DM Mono 11.5</code><span style="font-family:var(--mono); font-size:11.5px; letter-spacing:.08em">THU 19 NOV · 14:06 · 25 MIN</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Symbol -->
+    <div class="blk">
+      <div class="lbl">Symbol &amp; motifs<b>Three symbol routes</b></div>
+      <div class="body">
+        <div class="syms">
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Horizon symbol"><use href="#s1-horizon"/></svg><b>A · Horizon</b><p>A half-sun rising over a single line. Progress as something that arrives, never something you're behind on. Lead route.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Aperture symbol"><circle cx="32" cy="32" r="28" fill="var(--ink)"/><circle cx="32" cy="24" r="15" fill="var(--soft)"/><rect x="18" y="45" width="28" height="3" rx="1.5" fill="var(--sun)"/></svg><b>B · Porthole</b><p>A soft moon framed in a window. Reads as "a clear view". Strong as an app icon, weaker at 16px.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Capsule symbol"><rect x="19" y="4" width="26" height="56" rx="13" fill="var(--sun)"/><circle cx="32" cy="19" r="8.5" fill="var(--ink)"/><rect x="28" y="34" width="8" height="20" rx="4" fill="var(--surface)"/></svg><b>C · Capsule</b><p>A slider resting at "calm". A control you own, not a meter that judges you. Pairs well with the focus timer.</p></div>
+        </div>
+        <div class="lockup">
+          <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><use href="#s1-horizon"/></svg>
+          <span class="wm" style="font-weight:300; letter-spacing:-.04em">[PRODUCT NAME]</span>
+          <span class="small">Placeholder lockup. The wordmark will be drawn once the name is final.</span>
+        </div>
+        <div class="motifs">
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M20 110a80 80 0 0 1 160 0"/><path d="M40 110a60 60 0 0 1 120 0"/><path d="M60 110a40 40 0 0 1 80 0"/></g><circle cx="100" cy="110" r="20" fill="var(--sun)"/></svg><span>Horizon arcs</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><g fill="var(--lilac)"><rect x="18" y="24" width="70" height="26" rx="13"/><rect x="96" y="24" width="86" height="26" rx="13" fill="var(--soft)"/><rect x="18" y="58" width="110" height="26" rx="13" fill="var(--sun)"/><rect x="136" y="58" width="46" height="26" rx="13"/></g></svg><span>Capsules</span></div>
+          <div style="background-image:radial-gradient(var(--muted) 1px, transparent 1.2px); background-size:10px 10px; background-color:var(--surface)"><span>Dot grid · 10px</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><rect width="200" height="110" fill="var(--soft)"/><rect y="62" width="200" height="4" fill="var(--surface)"/><rect y="74" width="200" height="2" fill="var(--surface)" opacity=".7"/><rect y="84" width="200" height="1" fill="var(--surface)" opacity=".5"/></svg><span>Horizon lines</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icons -->
+    <div class="blk">
+      <div class="lbl">Iconography &amp; illustration<b>Circle-built, 1.5px</b></div>
+      <div class="body">
+        <div class="icons" style="--sw:1.5">
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15a7 7 0 0 1 14 0"/><path d="M3 15h18"/><path d="M7 19h10"/></svg><figcaption>Today</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg><figcaption>Focus</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4v4h-4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><figcaption>Resume</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 19h18"/><circle cx="6" cy="14.5" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="18" cy="7.5" r="2"/></svg><figcaption>Habits</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="5"/><path d="M3.5 13h4.5l1.5 2h5l1.5-2h4.5"/></svg><figcaption>Inbox</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 4.5A7.5 7.5 0 1 0 19.5 15a6 6 0 0 1-4-10.5z"/></svg><figcaption>Rest</figcaption></figure>
+        </div>
+        <div class="two">
+          <div class="illo"><svg viewBox="0 0 400 220"><rect width="400" height="220" fill="var(--bg)"/><circle cx="270" cy="150" r="70" fill="var(--sun)"/><rect x="0" y="150" width="400" height="70" fill="var(--soft)"/><rect x="0" y="147" width="400" height="5" fill="var(--surface)"/><rect x="60" y="92" width="120" height="44" rx="22" fill="var(--surface)"/><circle cx="82" cy="114" r="10" fill="var(--accent)"/><rect x="100" y="108" width="62" height="5" rx="2.5" fill="var(--line)"/><rect x="100" y="118" width="40" height="5" rx="2.5" fill="var(--line)"/><path d="M300 40a40 40 0 0 1 60 0" fill="none" stroke="var(--lilac)" stroke-width="6" stroke-linecap="round"/><circle cx="330" cy="58" r="5" fill="var(--lilac)"/></svg></div>
+          <div class="prose">
+            <p><strong>Icons:</strong> built from circles and straight lines on a 24px grid, 1.5px stroke, round caps. One small filled element per icon at most, so the set reads light at a glance.</p>
+            <p><strong>Illustration:</strong> flat geometric scenes from four shapes (circle, half-circle, capsule, line) in the palette's pastels. No gradients, no characters with faces, no confetti. Product UI fragments may sit inside scenes as calm objects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surfaces -->
+    <div class="blk">
+      <div class="lbl">Surfaces, shape &amp; spacing<b>Pills and soft slabs</b></div>
+      <div class="body">
+        <div class="surf">
+          <div class="s card" style="border-radius:22px"><b>Slab</b><code>Porcelain · 1px #CDD5D2 · r 22</code><span class="small">Cards and panels. Borders, never heavy shadows.</span></div>
+          <div class="s" style="border-radius:999px; background:var(--surface); border:1px solid var(--line); min-height:64px; align-self:center"><b>Pill row</b><code>r 999 · task rows, chips, buttons</code></div>
+          <div class="s" style="border-radius:22px; background:var(--lilac); color:#1D2833"><b>Tinted panel</b><code style="color:#3b4652">Pastel fill · no border</code><span style="font-size:13px">For illustration and the resume card only.</span></div>
+        </div>
+        <div class="two">
+          <div class="card"><span class="tag">Radius scale</span><div class="radii" style="margin-top:12px"><div style="border-radius:8px">8</div><div style="border-radius:14px">14</div><div style="border-radius:22px">22</div><div style="border-radius:999px">pill</div></div></div>
+          <div class="card"><span class="tag">Spacing · 4px base, airy rhythm</span><div class="spacing" style="margin-top:12px"><div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div><div><i style="width:48px;height:48px"></i>48</div><div><i style="width:72px;height:72px"></i>72</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div class="blk">
+      <div class="lbl">Motion<b>Rise &amp; settle</b></div>
+      <div class="body">
+        <div class="motion">
+          <div class="stage m1" id="m1">
+            <button class="replay" data-replay="m1">Replay</button>
+            <span class="tag">Things rise into place, then rest</span>
+            <div class="cards"><div>Reply to Lina about the venue <span class="mono" style="font-size:11px">12 MIN</span></div><div>Review onboarding copy <span class="mono" style="font-size:11px">30 MIN</span></div><div>Outline workshop agenda <span class="mono" style="font-size:11px">20 MIN</span></div></div>
+            <div class="breath">BREATHE</div>
+          </div>
+          <div class="prose">
+            <ul class="clean">
+              <li>Elements rise 8–12px and fade in, decelerating to rest. Nothing bounces or overshoots.</li>
+              <li>The focus timer "breathes" on a 6-second cycle, slow enough to pace a breath.</li>
+              <li>Completing a task softly settles it below the open list. No confetti, no streak fireworks.</li>
+            </ul>
+            <div class="tokens"><div><span>--ease-settle</span><span>cubic-bezier(.22,1,.36,1)</span></div><div><span>--dur-quick / base / slow</span><span>160 / 320 / 480ms</span></div><div><span>--stagger</span><span>80ms</span></div><div><span>reduced motion</span><span>opacity only, 120ms</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product UI -->
+    <div class="blk wide">
+      <div class="lbl">Product interface<b>Today, desktop</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame" id="f1">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[PRODUCT NAME] · Today</span><button class="dk" aria-pressed="false" data-dark="f1">Dark preview</button></div>
+            <div class="a1">
+              <aside class="side">
+                <div class="brand"><svg viewBox="0 0 64 64"><use href="#s1-horizon"/></svg>[PRODUCT NAME]</div>
+                <nav class="nav" aria-label="Demo navigation">
+                  <a class="on" href="#retro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 15a7 7 0 0 1 14 0"/><path d="M3 15h18"/><path d="M7 19h10"/></svg>Today</a>
+                  <a href="#retro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>Focus</a>
+                  <a href="#retro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="5"/><path d="M3.5 13h4.5l1.5 2h5l1.5-2h4.5"/></svg>Inbox</a>
+                  <a href="#retro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 19h18"/><circle cx="6" cy="14.5" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="18" cy="7.5" r="2"/></svg>Habits</a>
+                  <a href="#retro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 4.5A7.5 7.5 0 1 0 19.5 15a6 6 0 0 1-4-10.5z"/></svg>Rest</a>
+                </nav>
+                <div class="quiet"><i></i>Quiet hours from 18:00</div>
+              </aside>
+              <main>
+                <div>
+                  <div class="when">THU 19 NOV · 14:06</div>
+                  <h3>Good afternoon, Sam.</h3>
+                  <p class="sub">Three things matter today. The rest can wait, and that's fine.</p>
+                </div>
+                <div class="resume">
+                  <div class="art"><svg viewBox="0 0 150 150" preserveAspectRatio="xMidYMid slice"><circle cx="75" cy="105" r="44" fill="var(--sun)"/><rect y="105" width="150" height="45" fill="var(--soft)"/><rect y="102" width="150" height="5" fill="var(--surface)"/></svg></div>
+                  <div class="txt">
+                    <span class="tag">Pick up where you left off</span>
+                    <h4>Q1 roadmap narrative</h4>
+                    <p class="small">Paused at 10:42 · 3 of 5 sections drafted</p>
+                    <p style="font-size:14px">Next small step: tighten the pricing paragraph.</p>
+                    <div class="row" style="margin-top:6px"><button class="btn">Resume · 25 min</button><button class="btn ghost">Later today</button></div>
+                  </div>
+                </div>
+                <div class="list">
+                  <div class="lh"><b>Today</b><span class="est">2 done · 3 open</span></div>
+                  <div class="task"><i class="ck"></i><span class="t">Reply to Lina about the venue</span><span class="pill p-lil">Studio</span><span class="est">12 min</span></div>
+                  <div class="task"><i class="ck"></i><span class="t">Review onboarding copy</span><span class="pill p-soft">Work</span><span class="est">30 min</span></div>
+                  <div class="task"><i class="ck"></i><span class="t">Outline workshop agenda</span><span class="pill p-sun">Work</span><span class="est">20 min</span></div>
+                  <div class="task done"><i class="ck"></i><span class="t">Book dentist appointment</span><span class="pill p-sun">Home</span><span class="est">5 min</span></div>
+                  <div class="task done"><i class="ck"></i><span class="t">Morning stand-up notes</span><span class="pill p-soft">Work</span><span class="est">10 min</span></div>
+                </div>
+                <p class="carried">2 tasks moved to Friday for you. Nothing here is overdue.</p>
+              </main>
+              <aside class="right">
+                <div class="panel dial">
+                  <span class="tag">Focus session</span>
+                  <svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="72" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="85" cy="85" r="72" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="262 452" transform="rotate(-90 85 85)"/><circle cx="85" cy="85" r="54" fill="var(--soft)" opacity=".45"/></svg>
+                  <div class="time">14:32</div>
+                  <p class="small">Deep work · Roadmap</p>
+                  <div class="row" style="justify-content:center; margin-top:10px"><button class="btn ghost">Pause</button><button class="btn ghost">End early</button></div>
+                </div>
+                <div class="panel">
+                  <span class="tag">Rhythm · walk after lunch</span>
+                  <div class="rhythm"><i class="y"></i><i class="y"></i><i></i><i class="y"></i><i></i><i class="y"></i><i></i></div>
+                  <p class="small">4 of the last 7 days. A good rhythm.</p>
+                </div>
+                <div class="panel">
+                  <span class="tag">How's your energy?</span>
+                  <div class="energy"><span>Low</span><span class="on">Steady</span><span>High</span></div>
+                  <p class="small">When you're low, we'll suggest shorter tasks first.</p>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+        <p class="caption">Layout: three calm columns. Resume is the first thing you see, the list never shows a red count, and habits read as a rhythm, not a streak to lose. Use "Dark preview" to see the night palette.</p>
+      </div>
+    </div>
+
+    <!-- Landing hero -->
+    <div class="blk wide">
+      <div class="lbl">Landing hero<b>Website, 1440 frame</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[productname].app</span><span></span></div>
+            <div class="h1">
+              <nav><span style="display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12.5px"><svg viewBox="0 0 64 64" width="28" height="28"><use href="#s1-horizon"/></svg>[PRODUCT NAME]</span><span class="l"><span>How it works</span><span>Focus</span><span>Habits</span><span>Pricing</span></span><span style="font-weight:500">Sign in</span></nav>
+              <div class="copy">
+                <div class="k">A calmer productivity workspace</div>
+                <h3>Progress without pressure.</h3>
+                <p>Plan your day, protect your focus and build habits at a human pace. When you're interrupted, [PRODUCT NAME] remembers where you were, so you never start from zero.</p>
+                <div class="row"><button class="btn">Get early access</button><button class="btn ghost">See how it works</button></div>
+              </div>
+              <svg class="scene" viewBox="0 0 560 520" aria-hidden="true"><circle cx="300" cy="400" r="230" fill="var(--sun)"/><rect x="0" y="400" width="560" height="120" fill="var(--soft)"/><rect x="0" y="396" width="560" height="7" fill="var(--surface)"/><rect x="0" y="426" width="560" height="3" fill="var(--surface)" opacity=".7"/><rect x="0" y="452" width="560" height="2" fill="var(--surface)" opacity=".5"/><path d="M380 110a70 70 0 0 1 110 0" fill="none" stroke="var(--lilac)" stroke-width="10" stroke-linecap="round"/><circle cx="435" cy="140" r="8" fill="var(--lilac)"/></svg>
+              <div class="float"><span class="tag">Pick up where you left off</span><b>Q1 roadmap narrative</b><span style="color:var(--muted)">Next: tighten the pricing paragraph</span><div class="bar"><i></i></div></div>
+              <div class="proof"><span>NO STREAKS TO LOSE</span><span>NO OVERDUE RED</span><span>WORKS OFFLINE</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     DIRECTION 2 · MOMENTUM & CONTINUITY
+     ====================================================================== -->
+<section class="dir d2 gut" id="momentum">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="num">Direction 2 of 3</div>
+        <h2>Momentum &amp; Continuity</h2>
+      </div>
+      <p class="thesis">Every piece of work leaves a thread you can pick up again. The identity draws that thread: elegant paths, open orbits and one warm marigold dot that always means "you are here". Progress is shown as distance travelled, never as a gap left to close.</p>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Moodboard<b>Long exposure</b></div>
+      <div class="body">
+        <div class="mood">
+          <div class="w2 h2" style="background:#141A2E">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#DCE1FA" stroke-width="1" opacity=".55"><ellipse cx="220" cy="160" rx="170" ry="70" transform="rotate(-18 220 160)"/><ellipse cx="220" cy="160" rx="130" ry="50" transform="rotate(-18 220 160)"/><ellipse cx="220" cy="160" rx="90" ry="32" transform="rotate(-18 220 160)"/></g><path d="M40 260C120 200 160 120 260 100s110-40 140-70" fill="none" stroke="#2F44B0" stroke-width="3"/><circle cx="220" cy="160" r="16" fill="#2F44B0"/><circle cx="366" cy="104" r="7" fill="#F0B33F"/></svg>
+            <span class="cap" style="color:#DCE1FA">Orbital diagram · nothing ever stops, it continues</span>
+          </div>
+          <div style="background:#2F44B0; color:#FFFFFF">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity=".5"><path d="M-10 120C40 60 90 140 210 40"/><path d="M-10 132C40 72 90 152 210 52"/><path d="M-10 144C40 84 90 164 210 64"/></g></svg>
+            <span class="cap">Light trails</span>
+          </div>
+          <div style="background:#FFFFFF; color:#141A2E; justify-content:space-between">
+            <span style="font-family:'Sora',sans-serif; font-weight:600; font-size:64px; letter-spacing:-.06em; line-height:1">Aa</span>
+            <span class="cap" style="color:#5A6278">Round, forward-leaning</span>
+          </div>
+          <div style="background:#F0B33F; color:#141A2E">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><circle cx="100" cy="64" r="26" fill="#141A2E"/><circle cx="100" cy="64" r="44" fill="none" stroke="#141A2E" stroke-width="1.2" stroke-dasharray="3 5"/></svg>
+            <span class="cap">You are here</span>
+          </div>
+          <div style="background:#DCE1FA; color:#141A2E">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><g stroke="#2F44B0" stroke-width="1.5"><path d="M20 40v14M40 40v8M60 40v8M80 40v14M100 40v8M120 40v8M140 40v14M160 40v8M180 40v8"/></g><path d="M20 90H180" stroke="#141A2E" stroke-width="1.5"/><circle cx="112" cy="90" r="5" fill="#F0B33F"/></svg>
+            <span class="cap">Timetables, ticks, relay</span>
+          </div>
+          <div class="w2" style="background:#F1F2F5; color:#141A2E; justify-content:space-between; border:1px solid #D9DCE5">
+            <span style="font-family:'Sora',sans-serif; font-weight:500; font-size:24px; letter-spacing:-.03em; line-height:1.25">continuous · buoyant · directional · resumable · steady</span>
+            <span class="cap" style="color:#5A6278">Mood words</span>
+          </div>
+          <div style="background:#3E7858; color:#FFFFFF">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><path d="M0 110C50 110 50 50 100 50s50 60 100 60" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".6"/><circle cx="100" cy="50" r="5" fill="#F0B33F"/></svg>
+            <span class="cap">Rhythm, not streaks</span>
+          </div>
+        </div>
+        <div class="two">
+          <div class="prose">
+            <p><strong>Rationale.</strong> The product's hardest job is helping people return after an interruption. This direction makes that the brand. Lines never dead-end, orbits stay open, and a paused task is drawn as a dashed node waiting on the path, not a failure.</p>
+            <p>Retro-futurism here comes from orbital diagrams, transit timetables and observatory charts. It uses their precision and optimism without their hardware.</p>
+          </div>
+          <div class="prose">
+            <p><strong>Photography and imagery.</strong> Long-exposure light, cyclists and swimmers mid-stroke, train windows, hands moving between notebook and keyboard. Motion blur used sparingly.</p>
+            <p><strong>Feels like:</strong> a good transit map, a relay hand-off, a quiet planetarium.<br><strong>Never:</strong> rockets, speed lines, fitness-tracker rings, "crush your goals".</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Colour<b>Ultramarine thread, marigold marker</b></div>
+      <div class="body">
+        <div class="pal">
+          <div class="sw"><div class="chipc" style="background:#F1F2F5"></div><div class="meta"><b>Fog</b><code>#F1F2F5</code><small>App background</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#FFFFFF"></div><div class="meta"><b>Paper</b><code>#FFFFFF</code><small>Surfaces</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#141A2E"></div><div class="meta"><b>Midnight</b><code>#141A2E</code><small>Text, deep sections</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#2F44B0"></div><div class="meta"><b>Ultramarine</b><code>#2F44B0</code><small>Primary, paths</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#F0B33F"></div><div class="meta"><b>Marigold</b><code>#F0B33F</code><small>"You are here" only</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#DCE1FA; display:flex"><i style="flex:1"></i><i style="flex:1; background:#3E7858"></i></div><div class="meta"><b>Periwinkle · Moss</b><code>#DCE1FA · #3E7858</code><small>Tints, completion</small></div></div>
+        </div>
+        <div class="dkrow">
+          <div style="background:#0F1322; color:#A1A8C0">Deep Space<br>#0F1322</div>
+          <div style="background:#171C30; color:#A1A8C0">Night Panel<br>#171C30</div>
+          <div style="background:#E8EAF3; color:#141A2E">Starlight<br>#E8EAF3</div>
+          <div style="background:#8C9BFF; color:#0F1322">Lit Ultramarine<br>#8C9BFF</div>
+          <div style="background:#F2BC55; color:#141A2E">Lamp Marigold<br>#F2BC55</div>
+          <div style="background:#79B897; color:#0F1322">Night Moss<br>#79B897</div>
+        </div>
+        <div class="contrast"><span>Midnight on Fog 15.4:1</span><span>White on Ultramarine 8.2:1</span><span>Muted #5A6278 on Paper 6.1:1</span><span>Midnight on Marigold 9.2:1</span><span>Dark: Starlight on Deep Space 15.4:1</span></div>
+        <p class="small">Rule: marigold appears once per screen. It marks where you are in your day or your work, which makes it the most useful colour in the product.</p>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Typography<b>Sora · Manrope · IBM Plex Mono</b></div>
+      <div class="body">
+        <div class="spec">
+          <div class="big" style="font-size:clamp(40px,6vw,80px)">Keep moving, gently.</div>
+          <div class="two">
+            <div class="card prose"><span class="tag">Display · Sora 600 (OFL)</span><p>Round counters and a slightly forward energy. Set tight (−4 to −6%) for headlines and big numbers. Its circular construction echoes the orbit symbol.</p></div>
+            <div class="card prose"><span class="tag">Interface · Manrope 500/700 (OFL)</span><p>Compact, crisp and very legible at 13–15px, with good numerals for durations. <span style="font-family:var(--mono); font-size:13px">IBM Plex Mono</span> is for times on the day thread, the product's "timetable" voice.</p></div>
+          </div>
+          <div class="scale">
+            <div><code>Display L · 72/70</code><span style="font-family:var(--display); font-weight:600; font-size:44px; letter-spacing:-.055em; line-height:1">Every task leaves a thread</span></div>
+            <div><code>Display S · 28/32</code><span style="font-family:var(--display); font-weight:600; font-size:28px; letter-spacing:-.04em">Continue your thread</span></div>
+            <div><code>Title · 16/22 · 700</code><span style="font-size:16px; font-weight:700">Q1 roadmap narrative</span></div>
+            <div><code>Body · 15/23 · 500</code><span style="font-size:15px; font-weight:500">You left off in "Why now", paragraph 3.</span></div>
+            <div><code>Time · Plex Mono 11.5</code><span style="font-family:var(--mono); font-size:11.5px">10:15 → 10:42 · paused · 27 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Symbol &amp; motifs<b>Three symbol routes</b></div>
+      <div class="body">
+        <div class="syms">
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Continuum symbol"><use href="#s2-continuum"/></svg><b>A · Continuum</b><p>An open orbit with a marigold dot in the gap: the place you'll pick up from. Simple at 16px, ownable, explains the product. Lead route.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Relay symbol"><path d="M10 44C10 22 32 20 32 32s22 10 22-12" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><circle cx="10" cy="48" r="5" fill="var(--accent)"/><circle cx="54" cy="16" r="5" fill="var(--trail)"/></svg><b>B · Relay</b><p>An S-path handed from one point to the next. Good for "momentum", a little close to generic arrow marks.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Orbit pair symbol"><ellipse cx="32" cy="32" rx="27" ry="11" fill="none" stroke="var(--accent)" stroke-width="4" transform="rotate(-24 32 32)"/><circle cx="32" cy="32" r="11" fill="var(--accent)"/><circle cx="55" cy="21" r="5" fill="var(--trail)"/></svg><b>C · Satellite</b><p>Most literally retro-future. Charming, but it leans toward "space company" and loses detail small.</p></div>
+        </div>
+        <div class="lockup">
+          <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><use href="#s2-continuum"/></svg>
+          <span class="wm" style="font-weight:600; letter-spacing:-.05em">[PRODUCT NAME]</span>
+          <span class="small">Placeholder lockup. The wordmark will be drawn once the name is final.</span>
+        </div>
+        <div class="motifs">
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="var(--accent)" stroke-width="1.2"><ellipse cx="100" cy="55" rx="90" ry="30"/><ellipse cx="100" cy="55" rx="60" ry="20"/></g><circle cx="190" cy="55" r="5" fill="var(--trail)"/></svg><span>Open orbits</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><path d="M10 90C60 90 60 30 110 30s40 40 80 40" fill="none" stroke="var(--accent)" stroke-width="2.5"/><path d="M10 90C60 90 60 30 110 30" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="0" opacity=".25" transform="translate(0 10)"/><circle cx="110" cy="30" r="5" fill="var(--trail)"/></svg><span>Thread</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><g stroke="var(--muted)" stroke-width="1.2"><path d="M20 40v16M40 40v8M60 40v8M80 40v16M100 40v8M120 40v8M140 40v16M160 40v8M180 40v8"/></g><path d="M20 72h160" stroke="var(--ink)"/><circle cx="96" cy="72" r="4.5" fill="var(--trail)"/></svg><span>Timetable ticks</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><path d="M20 55h50" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><path d="M80 55h40" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 7"/><path d="M130 55h50" stroke="var(--line)" stroke-width="3" stroke-linecap="round"/><circle cx="76" cy="55" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/></svg><span>Paused node</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Iconography &amp; illustration<b>Paths with a terminal dot</b></div>
+      <div class="body">
+        <div class="icons">
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M3 18c5 0 5-10 10-10s4 6 8 6"/><circle cx="13" cy="8" r="2.2" fill="#F0B33F" stroke="none"/></svg><figcaption>Today</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><ellipse cx="12" cy="12" rx="9" ry="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/><circle cx="18.4" cy="5.6" r="2" fill="#F0B33F" stroke="none"/></svg><figcaption>Focus</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M19.8 13.4A8 8 0 1 1 17.2 5.9"/><circle cx="19.7" cy="9" r="2.2" fill="#F0B33F" stroke="none"/></svg><figcaption>Resume</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M2.5 15c2.5 0 2.5-6 5-6s2.5 6 5 6 2.5-6 5-6 2 3 4 3"/><circle cx="17.5" cy="9" r="2" fill="#F0B33F" stroke="none"/></svg><figcaption>Habits</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5l2-7.5h13l2 7.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18z"/><path d="M3.5 13.5h5a3.5 3.5 0 0 0 7 0h5"/><circle cx="12" cy="9.5" r="1.8" fill="#F0B33F" stroke="none"/></svg><figcaption>Inbox</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M3 17h18"/><path d="M6 17a6 6 0 0 1 12 0"/><circle cx="12" cy="6" r="2" fill="#F0B33F" stroke="none"/></svg><figcaption>Rest</figcaption></figure>
+        </div>
+        <div class="two">
+          <div class="illo"><svg viewBox="0 0 400 220"><rect width="400" height="220" fill="var(--surface)"/><g fill="none" stroke="var(--line)" stroke-width="1"><ellipse cx="200" cy="120" rx="170" ry="62" transform="rotate(-10 200 120)"/><ellipse cx="200" cy="120" rx="118" ry="40" transform="rotate(-10 200 120)"/></g><path d="M30 190C110 190 120 80 200 80s110 60 170 30" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="90" cy="168" r="7" fill="var(--accent)"/><circle cx="150" cy="110" r="7" fill="var(--accent)"/><circle cx="200" cy="80" r="10" fill="var(--trail)"/><circle cx="270" cy="96" r="7" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 3"/><circle cx="340" cy="118" r="7" fill="var(--surface)" stroke="var(--line)" stroke-width="2.5"/></svg></div>
+          <div class="prose">
+            <p><strong>Icons:</strong> 1.75px strokes drawn as continuous paths, with a single marigold "you are here" dot where it adds meaning. In dense UI the dot is dropped and only the active nav item keeps it.</p>
+            <p><strong>Illustration:</strong> diagrams over pictures. Paths, nodes and open orbits on a faint construction grid, like a beautifully drawn transit map of your week. Filled nodes are done, dashed nodes are paused, marigold is now.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Surfaces, shape &amp; spacing<b>Precise cards, drawn lines</b></div>
+      <div class="body">
+        <div class="surf">
+          <div class="s card"><b>Card</b><code>Paper · 1px #D9DCE5 · r 14</code><span class="small">Crisp, flat. Depth comes from lines, not shadow.</span></div>
+          <div class="s" style="border-radius:14px; background:var(--soft); color:var(--ink)"><b>Orbit panel</b><code>Periwinkle tint · holds diagrams</code></div>
+          <div class="s" style="border-radius:14px; background:var(--ink); color:#E8EAF3"><b>Midnight band</b><code style="color:#A1A8C0">For marketing sections and focus mode</code></div>
+        </div>
+        <div class="two">
+          <div class="card"><span class="tag">Radius scale</span><div class="radii" style="margin-top:12px"><div style="border-radius:6px">6</div><div style="border-radius:8px">8</div><div style="border-radius:14px">14</div><div style="border-radius:50%; width:56px">node</div></div></div>
+          <div class="card"><span class="tag">Spacing · 4px base, denser rhythm</span><div class="spacing" style="margin-top:12px"><div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:20px;height:20px"></i>20</div><div><i style="width:28px;height:28px"></i>28</div><div><i style="width:44px;height:44px"></i>44</div><div><i style="width:64px;height:64px"></i>64</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Motion<b>The continuous thread</b></div>
+      <div class="body">
+        <div class="motion">
+          <div class="stage m2" id="m2">
+            <span class="tag">Completing a step draws the next segment</span>
+            <svg viewBox="0 0 460 200" aria-label="Path progress demo">
+              <path id="m2base" d="M20 160C90 160 100 60 170 60s90 90 160 90 80-70 110-90" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/>
+              <path id="m2prog" class="seg" d="M20 160C90 160 100 60 170 60s90 90 160 90 80-70 110-90" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+              <g fill="none" stroke="var(--line)" stroke-width="1" opacity=".8"><ellipse cx="400" cy="70" rx="44" ry="16"/></g>
+              <circle r="4" fill="var(--accent)"><animateMotion dur="14s" repeatCount="indefinite" path="M356 70a44 16 0 1 0 88 0a44 16 0 1 0 -88 0"/></circle>
+              <circle id="m2dot" r="8" fill="var(--trail)" cx="20" cy="160"/>
+            </svg>
+            <div class="btns"><button id="m2next">Complete next step</button><button id="m2reset">Reset</button></div>
+          </div>
+          <div class="prose">
+            <ul class="clean">
+              <li>Progress is drawn as a line growing along a path (stroke reveal), never a bar filling toward 100%.</li>
+              <li>The marigold dot glides to the next node with an ease-in-out, so "where am I" is always answered by motion.</li>
+              <li>Ambient orbits move at a 14–20s period, slow enough to feel alive without drawing the eye. Paused in focus mode.</li>
+            </ul>
+            <div class="tokens"><div><span>--ease-glide</span><span>cubic-bezier(.65,0,.35,1)</span></div><div><span>--dur-step / draw</span><span>240 / 700ms</span></div><div><span>--orbit-period</span><span>14–20s linear</span></div><div><span>reduced motion</span><span>static paths, dot jumps</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk wide">
+      <div class="lbl">Product interface<b>Today, desktop</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame" id="f2">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[PRODUCT NAME] · Today</span><button class="dk" aria-pressed="false" data-dark="f2">Dark preview</button></div>
+            <div class="a2">
+              <div class="top">
+                <span class="brand"><svg viewBox="0 0 64 64"><use href="#s2-continuum"/></svg>[PRODUCT NAME]</span>
+                <span class="tabs"><span class="on">Today</span><span>Focus</span><span>Threads</span><span>Habits</span></span>
+                <span class="sp"></span>
+                <span class="search">Search or jump to…</span>
+                <span class="av">S</span>
+              </div>
+              <div class="grid">
+                <aside class="thread">
+                  <span class="tag">Your day · Thu 19 Nov</span>
+                  <div class="tl">
+                    <svg class="line" viewBox="0 0 20 400" preserveAspectRatio="none" aria-hidden="true"><path d="M9 6V250" stroke="var(--accent)" stroke-width="2"/><path d="M9 250V400" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 5"/></svg>
+                    <div class="n done"><time>09:00</time>Stand-up notes</div>
+                    <div class="n paused"><time>10:15 → 10:42 · paused</time>Q1 roadmap narrative</div>
+                    <div class="n done"><time>11:30</time>Book dentist</div>
+                    <div class="n done"><time>12:45</time>Walk after lunch</div>
+                    <div class="n now"><time>14:06 · now</time>You are here</div>
+                    <div class="n later"><time>15:00</time>Review onboarding copy</div>
+                    <div class="n later"><time>16:30</time>Reply to Lina</div>
+                    <div class="n later"><time>18:00</time>Wind down</div>
+                  </div>
+                </aside>
+                <main>
+                  <h3>Continue your thread</h3>
+                  <div class="cont">
+                    <div class="txt">
+                      <span class="tag">Paused at 10:42 · 27 min in</span>
+                      <h4>Q1 roadmap narrative</h4>
+                      <p style="font-size:14.5px">You left off in "Why now", paragraph 3. Your next step was to tighten the pricing paragraph.</p>
+                      <div class="ctx"><span>roadmap.doc</span><span>pricing-notes</span><span>2 tabs saved</span><span>note: check churn with Ana</span></div>
+                      <div class="row" style="margin-top:6px"><button class="btn">Resume where I left off</button><span class="link">Start fresh instead</span></div>
+                    </div>
+                    <div class="orb"><svg viewBox="0 0 220 220" preserveAspectRatio="xMidYMid meet"><ellipse cx="110" cy="110" rx="86" ry="86" fill="none" stroke="var(--line)" stroke-width="2"/><path d="M110 24A86 86 0 0 1 191.8 136.6" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="24" r="7" fill="var(--accent)"/><circle cx="191.8" cy="83.4" r="7" fill="var(--accent)"/><circle cx="191.8" cy="136.6" r="9" fill="var(--trail)"/><circle cx="110" cy="196" r="7" fill="var(--surface)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="28.2" cy="136.6" r="7" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/><text x="110" y="106" text-anchor="middle" font-family="Sora, sans-serif" font-weight="600" font-size="30" fill="var(--ink)" letter-spacing="-1.5">3 / 5</text><text x="110" y="128" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">SECTIONS DRAFTED</text></svg></div>
+                  </div>
+                  <div>
+                    <span class="tag" style="display:block; margin-bottom:8px">Next along the path</span>
+                    <div class="next">
+                      <div class="it"><i></i><span class="t">Review onboarding copy<span>Work · after this session</span></span><small>30 min</small></div>
+                      <div class="it"><i></i><span class="t">Reply to Lina about the venue<span>Studio · quick</span></span><small>12 min</small></div>
+                      <div class="it"><i></i><span class="t">Outline workshop agenda<span>Moved to Friday · no rush</span></span><small>20 min</small></div>
+                    </div>
+                  </div>
+                </main>
+                <aside class="right">
+                  <div class="panel focus">
+                    <span class="tag">Focus · deep work</span>
+                    <svg viewBox="0 0 190 190"><circle cx="95" cy="95" r="78" fill="none" stroke="var(--line)" stroke-width="2"/><circle cx="95" cy="95" r="78" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-dasharray="285 490" transform="rotate(-90 95 95)"/><circle r="6" fill="var(--trail)"><animateMotion dur="20s" repeatCount="indefinite" path="M95 17a78 78 0 1 1 0 156a78 78 0 1 1 0-156"/></circle></svg>
+                    <div class="t">14:32</div>
+                    <p class="small">left in this session</p>
+                  </div>
+                  <div class="panel spark">
+                    <span class="tag">Momentum this week</span>
+                    <svg viewBox="0 0 240 80" preserveAspectRatio="none"><path d="M0 60C30 52 50 40 80 44s50-16 80-20 50 6 80 0V80H0z" fill="var(--soft)"/><path d="M0 60C30 52 50 40 80 44s50-16 80-20 50 6 80 0" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="240" cy="24" r="4" fill="var(--trail)"/></svg>
+                    <p class="small" style="margin-top:8px">Steady. About 1h 50m of focus a day since Monday.</p>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="caption">Layout: the day is a vertical thread on the left, the resume card dominates the centre, and focus orbits on the right. A paused task is a dashed node, not a red warning.</p>
+      </div>
+    </div>
+
+    <div class="blk wide">
+      <div class="lbl">Landing hero<b>Website, 1440 frame</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[productname].app</span><span></span></div>
+            <div class="h2x">
+              <nav><span style="display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12.5px; font-weight:400"><svg viewBox="0 0 64 64" width="28" height="28"><use href="#s2-continuum"/></svg>[PRODUCT NAME]</span><span class="l"><span>Threads</span><span>Focus</span><span>Habits</span><span>Pricing</span></span><span>Sign in</span></nav>
+              <svg class="orbits" viewBox="0 0 680 600" aria-hidden="true">
+                <g fill="none" stroke="var(--line)" stroke-width="1.2"><ellipse cx="380" cy="300" rx="280" ry="110" transform="rotate(-16 380 300)"/><ellipse cx="380" cy="300" rx="200" ry="78" transform="rotate(-16 380 300)"/><ellipse cx="380" cy="300" rx="120" ry="46" transform="rotate(-16 380 300)"/></g>
+                <path d="M60 560C200 520 240 340 380 300S600 140 680 120" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="380" cy="300" r="34" fill="var(--accent)"/>
+                <circle r="9" fill="var(--trail)"><animateMotion dur="18s" repeatCount="indefinite" path="M100 300a280 110 0 1 0 560 0a280 110 0 1 0 -560 0" rotate="0"/></circle>
+              </svg>
+              <div class="chipf" style="right:360px; top:390px"><small>PAUSED 10:42</small>Q1 roadmap · 3 of 5</div>
+              <div class="chipf" style="right:70px; top:150px"><small>NEXT · 15:00</small>Review onboarding copy</div>
+              <div class="chipf" style="right:120px; top:470px"><small>RHYTHM</small>Walked 4 of 7 days</div>
+              <div class="copy">
+                <span class="k"><i></i>Built for interrupted days</span>
+                <h3>Keep moving, gently.</h3>
+                <p>Every task leaves a thread. [PRODUCT NAME] keeps it, so after a meeting, a call or a long weekend, you pick up exactly where you were.</p>
+                <div class="row"><button class="btn">Get early access</button><span class="link">Watch the 60-second tour →</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     DIRECTION 3 · WARM INTELLIGENT WORKSPACE
+     ====================================================================== -->
+<section class="dir d3 gut" id="workspace">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="num">Direction 3 of 3</div>
+        <h2>Warm Intelligent Workspace</h2>
+      </div>
+      <p class="thesis">A desk that tidies itself while you're away. Tactile paper surfaces, soft pressable controls and warm stone neutrals, with a quiet intelligence that notices and suggests but never nags. The future shows up as thoughtfulness, not chrome.</p>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Moodboard<b>The considered desk</b></div>
+      <div class="body">
+        <div class="mood">
+          <div class="w2 h2" style="background:#ECE7DF; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .15 0 0 0 0 .13 0 0 0 0 .1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E&quot;)">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect x="70" y="60" width="180" height="200" rx="18" fill="#FBF9F6" transform="rotate(-6 160 160)"/><rect x="150" y="50" width="180" height="200" rx="18" fill="#FBF9F6" stroke="#D9D1C5"/><path d="M290 50h16v40l-8-6-8 6z" fill="#6E4A67"/><rect x="172" y="84" width="110" height="10" rx="5" fill="#D9D1C5"/><rect x="172" y="104" width="130" height="8" rx="4" fill="#ECE7DF"/><rect x="172" y="120" width="96" height="8" rx="4" fill="#ECE7DF"/><circle cx="196" cy="200" r="22" fill="#36624A"/><circle cx="196" cy="200" r="8" fill="#FBF9F6"/></svg>
+            <span class="cap" style="color:#27231F">Paper, a bookmark, a good dial</span>
+          </div>
+          <div style="background:#36624A; color:#FBF9F6; background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 2px, transparent 2px 6px)">
+            <span class="cap">Wool felt, fern</span>
+          </div>
+          <div style="background:#E5B04B; color:#27231F; justify-content:space-between">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-variation-settings:'wdth' 84; font-size:64px; letter-spacing:-.05em; line-height:1">Aa</span>
+            <span class="cap">Characterful, kind</span>
+          </div>
+          <div style="background:#FBF9F6; color:#27231F; border:1px solid #D9D1C5">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><circle cx="100" cy="66" r="40" fill="#ECE7DF"/><circle cx="100" cy="66" r="28" fill="#FBF9F6" stroke="#D9D1C5"/><rect x="98" y="40" width="4" height="16" rx="2" fill="#27231F"/><g stroke="#6A625A" stroke-width="1.5"><path d="M100 18v6M148 66h-6M52 66h6M134 32l-4 4M66 32l4 4"/></g></svg>
+            <span class="cap">Pressable, physical</span>
+          </div>
+          <div style="background:#E8DAE3; color:#27231F">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><path d="M60 30h50v80l-25-18-25 18z" fill="#6E4A67"/><path d="M120 30h30v50l-15-10-15 10z" fill="#E5B04B"/></svg>
+            <span class="cap">Bookmarks, ribbons</span>
+          </div>
+          <div class="w2" style="background:#27231F; color:#ECE7DF; justify-content:space-between">
+            <span style="font-family:'Figtree',sans-serif; font-weight:500; font-size:24px; line-height:1.25">attentive · tactile · kind · grounded · quietly clever</span>
+            <span class="cap" style="color:#E5B04B">Mood words</span>
+          </div>
+          <div style="background:#D5E2D3; color:#27231F">
+            <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect x="40" y="30" width="60" height="60" rx="16" fill="#FBF9F6"/><rect x="70" y="50" width="60" height="60" rx="16" fill="#36624A"/><circle cx="150" cy="40" r="10" fill="#E5B04B"/></svg>
+            <span class="cap">Stacked, soft tiles</span>
+          </div>
+        </div>
+        <div class="two">
+          <div class="prose">
+            <p><strong>Rationale.</strong> People spend hours a day in this app, so it should feel like a good room. Surfaces have a hint of paper and a gentle lift. Controls look pressable. The assistant speaks in plain sentences and always offers "Leave as is".</p>
+            <p>The retro-future lives in the details: dial-like timers, ribbon bookmarks and stacked tiles, the warmth of 1960s office design with today's intelligence quietly behind it.</p>
+          </div>
+          <div class="prose">
+            <p><strong>Photography and imagery.</strong> Real desks in natural light, wool, ceramic, paper, plants that are actually alive. Hands and objects, rarely faces. Colour-graded slightly warm.</p>
+            <p><strong>Feels like:</strong> a well-kept studio, a librarian who remembers you, a favourite notebook.<br><strong>Never:</strong> skeuomorphic leather, cartoon mascots, sparkle "AI" icons, cosy-to-the-point-of-twee.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Colour<b>Stone, fern and honey</b></div>
+      <div class="body">
+        <div class="pal">
+          <div class="sw"><div class="chipc" style="background:#ECE7DF"></div><div class="meta"><b>Stone</b><code>#ECE7DF</code><small>App background</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#FBF9F6"></div><div class="meta"><b>Paper</b><code>#FBF9F6</code><small>Cards</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#27231F"></div><div class="meta"><b>Graphite</b><code>#27231F</code><small>Text</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#36624A"></div><div class="meta"><b>Fern</b><code>#36624A</code><small>Primary actions</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#E5B04B"></div><div class="meta"><b>Honey</b><code>#E5B04B</code><small>Habits, warmth</small></div></div>
+          <div class="sw"><div class="chipc" style="background:#6E4A67; display:flex"><i style="flex:1"></i><i style="flex:1; background:#D5E2D3"></i></div><div class="meta"><b>Plum · Sage Mist</b><code>#6E4A67 · #D5E2D3</code><small>Bookmark, assistant</small></div></div>
+        </div>
+        <div class="dkrow">
+          <div style="background:#1C1916; color:#ADA398">Walnut<br>#1C1916</div>
+          <div style="background:#26221E; color:#ADA398">Lamp-lit Paper<br>#26221E</div>
+          <div style="background:#EEE8DF; color:#27231F">Linen<br>#EEE8DF</div>
+          <div style="background:#8DC2A2; color:#1C1916">Night Fern<br>#8DC2A2</div>
+          <div style="background:#E7B85A; color:#27231F">Honey<br>#E7B85A</div>
+          <div style="background:#C59BBC; color:#1C1916">Dusk Plum<br>#C59BBC</div>
+        </div>
+        <div class="contrast"><span>Graphite on Stone 12.7:1</span><span>White on Fern 7.0:1</span><span>Muted #6A625A on Paper 5.7:1</span><span>Plum on Paper 7.0:1</span><span>Dark: Linen on Walnut 14.4:1</span></div>
+        <p class="small">Rule: warm neutrals carry most of the screen. Fern is for decisions, honey for things you're nurturing, plum only for the bookmark that marks your place.</p>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Typography<b>Bricolage Grotesque · Figtree · Spline Sans Mono</b></div>
+      <div class="body">
+        <div class="spec">
+          <div class="big" style="font-size:clamp(40px,6vw,80px)">Thursday, gently.</div>
+          <div class="two">
+            <div class="card prose"><span class="tag">Display · Bricolage Grotesque 600, wdth 84–90 (OFL)</span><p>A grotesque with ink-trap warmth and optical sizes. Slightly condensed for headlines, it reads human and a little editorial without becoming a serif cliché.</p></div>
+            <div class="card prose"><span class="tag">Interface · Figtree 400–600 (OFL)</span><p>Friendly, open and clear at small sizes, with no geometric coldness. <span style="font-family:var(--mono); font-size:13px">Spline Sans Mono</span> is used sparingly for times and counts, softer than a typical code mono.</p></div>
+          </div>
+          <div class="scale">
+            <div><code>Display L · 70/68</code><span style="font-family:var(--display); font-weight:600; font-variation-settings:'wdth' 84; font-size:44px; letter-spacing:-.045em; line-height:1">A workspace that remembers</span></div>
+            <div><code>Display S · 34/38</code><span style="font-family:var(--display); font-weight:600; font-variation-settings:'wdth' 88; font-size:30px; letter-spacing:-.035em">Your bookmark</span></div>
+            <div><code>Title · 17/24 · 600</code><span style="font-size:17px; font-weight:600">Q1 roadmap narrative</span></div>
+            <div><code>Body · 15/23 · 400</code><span style="font-size:15px">Want to group the three short replies into one block?</span></div>
+            <div><code>Meta · Spline Mono 11</code><span style="font-family:var(--mono); font-size:11px">PAUSED 10:42 · 3 OF 5</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Symbol &amp; motifs<b>Three symbol routes</b></div>
+      <div class="body">
+        <div class="syms">
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Bookmark tiles symbol"><use href="#s3-bookmark"/></svg><b>A · Bookmark tile</b><p>Two stacked pages with a honey ribbon: "your place is kept". Tactile, warm and clear at small sizes. Lead route.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Dial symbol"><circle cx="32" cy="32" r="27" fill="var(--honey)"/><circle cx="32" cy="32" r="17" fill="var(--surface)"/><rect x="29.5" y="15" width="5" height="14" rx="2.5" fill="var(--ink)"/><circle cx="32" cy="8.5" r="2.5" fill="var(--accent)"/></svg><b>B · Dial</b><p>A soft knob turned to "now". Lovely for focus, but reads as a timer app rather than a whole workspace.</p></div>
+          <div class="sym"><svg viewBox="0 0 64 64" role="img" aria-label="Lamp symbol"><path d="M10 40a22 22 0 0 1 44 0z" fill="var(--accent)"/><rect x="8" y="44" width="48" height="10" rx="5" fill="var(--honey)"/><circle cx="32" cy="27" r="5" fill="var(--surface)"/></svg><b>C · Desk lamp</b><p>A pool of warm light over a desk. Inviting, but too close to Direction 1's horizon and to many lighting brands.</p></div>
+        </div>
+        <div class="lockup">
+          <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true"><use href="#s3-bookmark"/></svg>
+          <span class="wm" style="font-weight:600; font-variation-settings:'wdth' 86; letter-spacing:-.035em">[PRODUCT NAME]</span>
+          <span class="small">Placeholder lockup. The wordmark will be drawn once the name is final.</span>
+        </div>
+        <div class="motifs">
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><rect x="30" y="22" width="80" height="66" rx="14" fill="var(--soft)"/><rect x="60" y="30" width="80" height="66" rx="14" fill="var(--surface)" stroke="var(--line)"/><path d="M118 30h10v24l-5-4-5 4z" fill="var(--plum)"/></svg><span>Stacked pages</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><g fill="var(--plum)"><path d="M40 0h16v50l-8-6-8 6z"/></g><g fill="var(--honey)"><path d="M80 0h16v36l-8-6-8 6z"/></g><g fill="var(--accent)"><path d="M120 0h16v60l-8-6-8 6z"/></g></svg><span>Ribbons</span></div>
+          <div><svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice"><circle cx="100" cy="50" r="34" fill="var(--bg)"/><circle cx="100" cy="50" r="24" fill="var(--surface)" stroke="var(--line)"/><g stroke="var(--muted)" stroke-width="1.5"><path d="M100 8v6M142 50h-6M58 50h6"/></g><rect x="98" y="28" width="4" height="14" rx="2" fill="var(--ink)"/></svg><span>Dials &amp; ticks</span></div>
+          <div style="background-color:var(--surface); background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .15 0 0 0 0 .13 0 0 0 0 .1 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"><span>Paper grain · 3% max</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Iconography &amp; illustration<b>Duotone, soft-cornered</b></div>
+      <div class="body">
+        <div class="icons">
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="15" height="15" rx="4" fill="#D5E2D3" stroke="none"/><rect x="3" y="3" width="15" height="15" rx="4"/><path d="M7 8h7M7 12h4"/></svg><figcaption>Today</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13" cy="13" r="8" fill="#E5B04B" stroke="none" opacity=".55"/><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5"/></svg><figcaption>Focus</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="5" width="13" height="16" rx="3.5" fill="#E8DAE3" stroke="none"/><path d="M6 3h10a2 2 0 0 1 2 2v15l-6-4-6 4V5a2 2 0 0 1 2-2z"/></svg><figcaption>Resume</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="16" height="10" rx="3.5" fill="#E5B04B" stroke="none" opacity=".55"/><path d="M12 20v-8"/><path d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 14c0-3-2-5-6-5 0 3 2 5 6 5z"/><path d="M4 20h16"/></svg><figcaption>Habits</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="16" height="12" rx="3.5" fill="#D5E2D3" stroke="none"/><rect x="3" y="4" width="18" height="16" rx="4"/><path d="M3 13h5l1 2h6l1-2h5"/></svg><figcaption>Inbox</figcaption></figure>
+          <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="11" width="13" height="10" rx="3.5" fill="#E5B04B" stroke="none" opacity=".55"/><path d="M4 9h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M9 3c-.8 1 .8 2 0 3M13 3c-.8 1 .8 2 0 3"/></svg><figcaption>Rest</figcaption></figure>
+        </div>
+        <div class="two">
+          <div class="illo"><svg viewBox="0 0 400 220"><rect width="400" height="220" fill="var(--bg)"/><rect x="40" y="150" width="320" height="14" rx="7" fill="var(--line)"/><rect x="70" y="58" width="130" height="92" rx="14" fill="var(--soft)" transform="rotate(-5 135 104)"/><rect x="96" y="50" width="130" height="100" rx="14" fill="var(--surface)" stroke="var(--line)"/><path d="M200 50h14v30l-7-5-7 5z" fill="var(--plum)"/><rect x="112" y="72" width="70" height="8" rx="4" fill="var(--line)"/><rect x="112" y="88" width="90" height="6" rx="3" fill="var(--bg)"/><rect x="112" y="100" width="60" height="6" rx="3" fill="var(--bg)"/><rect x="256" y="98" width="46" height="52" rx="12" fill="var(--honey)"/><path d="M302 112h8a10 10 0 0 1 0 20h-8" fill="none" stroke="var(--honey)" stroke-width="6"/><path d="M270 78c-4 6 4 10 0 16M286 78c-4 6 4 10 0 16" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+          <div class="prose">
+            <p><strong>Icons:</strong> 2px outline over an offset soft fill, like a sticker slightly misregistered on paper. The offset fill carries meaning: sage for work, honey for things you're nurturing, heather for saved places.</p>
+            <p><strong>Illustration:</strong> still-life scenes of desk objects (pages, mugs, ribbons, dials) built from rounded rectangles with a 3% paper grain. Objects, not people. Warm, specific and calm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Surfaces, shape &amp; spacing<b>Paper with a gentle lift</b></div>
+      <div class="body">
+        <div class="surf">
+          <div class="s card"><b>Paper card</b><code>Paper · no border · lift shadow · r 18</code><span class="small">Three-layer shadow: a crisp 1px edge plus a soft ambient pool.</span></div>
+          <div class="s" style="border-radius:18px; background:var(--bg); box-shadow:inset 0 1px 3px rgba(39,35,31,.16)"><b>Inset well</b><code>For inputs, checkboxes, tracks</code><span class="small">Pressed into the surface.</span></div>
+          <div class="s" style="border-radius:18px; background:var(--soft)"><b>Assistant tint</b><code>Sage mist · suggestions only</code><span class="small">Anything the product proposes gets this colour, so it's never confused with your own content.</span></div>
+        </div>
+        <div class="two">
+          <div class="card"><span class="tag">Radius scale</span><div class="radii" style="margin-top:12px"><div style="border-radius:7px">7</div><div style="border-radius:12px">12</div><div style="border-radius:18px">18</div><div style="border-radius:24px">24</div></div></div>
+          <div class="card"><span class="tag">Spacing · 4px base, comfortable</span><div class="spacing" style="margin-top:12px"><div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:20px;height:20px"></i>20</div><div><i style="width:28px;height:28px"></i>28</div><div><i style="width:40px;height:40px"></i>40</div><div><i style="width:56px;height:56px"></i>56</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="lbl">Motion<b>Tactile response</b></div>
+      <div class="body">
+        <div class="motion">
+          <div class="stage m3" id="m3">
+            <span class="tag">Tap a card to bring it to the top</span>
+            <div class="stack" id="m3stack">
+              <button data-i="0"><small>BOOKMARK</small><b>Q1 roadmap narrative</b>Paused at 10:42</button>
+              <button data-i="1"><small>SUGGESTION</small><b>Group three replies</b>One 15-minute block</button>
+              <button data-i="2"><small>HABIT</small><b>Read 20 pages</b>Kept 5 times this week</button>
+            </div>
+          </div>
+          <div class="prose">
+            <ul class="clean">
+              <li>Controls press in (scale .98, shadow tightens) and release with a short, firm ease. Physical, never springy.</li>
+              <li>Cards move like paper: they lift slightly, slide, then settle with their shadow.</li>
+              <li>Assistant suggestions fade in after you finish an action, never while you're typing.</li>
+            </ul>
+            <div class="tokens"><div><span>--ease-press</span><span>cubic-bezier(.3,.7,.4,1)</span></div><div><span>--dur-press / slide</span><span>120 / 280ms</span></div><div><span>--lift-hover</span><span>translateY(-2px) + deeper shadow</span></div><div><span>reduced motion</span><span>no movement, shadow only</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blk wide">
+      <div class="lbl">Product interface<b>Today, desktop</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame" id="f3">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[PRODUCT NAME] · Today</span><button class="dk" aria-pressed="false" data-dark="f3">Dark preview</button></div>
+            <div class="a3">
+              <aside class="side">
+                <div class="brand"><svg viewBox="0 0 64 64"><use href="#s3-bookmark"/></svg>[PRODUCT NAME]</div>
+                <nav class="nav" aria-label="Demo navigation">
+                  <a class="on" href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="15" height="15" rx="4" fill="var(--soft)" stroke="none"/><rect x="3" y="3" width="15" height="15" rx="4"/><path d="M7 8h7M7 12h4"/></svg>Today</a>
+                  <a href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13" cy="13" r="8" fill="var(--honey)" stroke="none" opacity=".55"/><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5"/></svg>Focus</a>
+                  <a href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="5" width="13" height="16" rx="3.5" fill="var(--heather)" stroke="none"/><path d="M6 3h10a2 2 0 0 1 2 2v15l-6-4-6 4V5a2 2 0 0 1 2-2z"/></svg>Bookmarks</a>
+                  <a href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="16" height="10" rx="3.5" fill="var(--honey)" stroke="none" opacity=".55"/><path d="M12 20v-8"/><path d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 14c0-3-2-5-6-5 0 3 2 5 6 5z"/><path d="M4 20h16"/></svg>Habits</a>
+                  <a href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="16" height="12" rx="3.5" fill="var(--soft)" stroke="none"/><rect x="3" y="4" width="18" height="16" rx="4"/><path d="M3 13h5l1 2h6l1-2h5"/></svg>Inbox</a>
+                </nav>
+                <div class="spaces"><b>Spaces</b><span><i style="background:var(--accent)"></i>Work</span><span><i style="background:var(--honey)"></i>Home</span><span><i style="background:var(--plum)"></i>Studio</span></div>
+              </aside>
+              <main>
+                <div class="hd">
+                  <div><h3>Thursday, gently.</h3><p>About 3 hours of open time left today.</p></div>
+                  <span class="open">14:06 · 2 done · 3 to go</span>
+                </div>
+                <div class="g">
+                  <div class="c bm">
+                    <span class="tag">Your bookmark</span>
+                    <h4>Q1 roadmap narrative</h4>
+                    <div class="snap">
+                      <div><span>Last place</span><span>"Why now", paragraph 3</span></div>
+                      <div><span>Was open</span><span>roadmap.doc, pricing-notes</span></div>
+                      <div><span>Note to self</span><span><em>Check churn numbers with Ana</em></span></div>
+                      <div><span>Progress</span><span>3 of 5 sections, paused 10:42</span></div>
+                    </div>
+                    <div class="row" style="margin-top:4px"><button class="btn">Resume</button><button class="btn soft">Not now</button></div>
+                  </div>
+                  <div class="c assist">
+                    <span class="tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 14a7 7 0 0 1 14 0z"/><path d="M12 14v6M8 20h8"/></svg>A quiet suggestion</span>
+                    <p>You've switched tasks 9 times since noon. Want to group the three short replies into one 15-minute block at 16:00?</p>
+                    <div class="row"><button class="btn">Group them</button><button class="btn soft">Leave as is</button></div>
+                  </div>
+                  <div class="c knob">
+                    <span class="tag" style="justify-self:start">Focus</span>
+                    <svg viewBox="0 0 140 140"><g stroke="var(--muted)" stroke-width="2" stroke-linecap="round"><path d="M70 8v8M132 70h-8M8 70h8M70 132v-8M114 26l-5 5M26 26l5 5M114 114l-5-5M26 114l5-5"/></g><circle cx="70" cy="70" r="48" fill="var(--bg)"/><circle cx="70" cy="70" r="40" fill="var(--surface)" style="filter:drop-shadow(0 3px 4px rgba(39,35,31,.18))"/><rect x="66.5" y="34" width="7" height="22" rx="3.5" fill="var(--accent)" transform="rotate(60 70 70)"/><text x="70" y="80" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="600" font-size="20" fill="var(--ink)">25</text></svg>
+                    <div class="seg"><span>15</span><span class="on">25</span><span>50</span></div>
+                    <button class="btn" style="width:100%">Start focus</button>
+                  </div>
+                  <div class="c shelf">
+                    <span class="tag">Today's shelf</span>
+                    <div class="it"><i class="cb"></i><span class="t">Review onboarding copy</span><small>30 min</small></div>
+                    <div class="it"><i class="cb"></i><span class="t">Reply to Lina about the venue</span><small>12 min</small></div>
+                    <div class="it"><i class="cb"></i><span class="t">Outline workshop agenda</span><small>20 min</small></div>
+                    <div class="it done"><i class="cb"></i><span class="t">Book dentist appointment</span><small>done</small></div>
+                  </div>
+                  <div class="c">
+                    <span class="tag">Read 20 pages</span>
+                    <div class="wk"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+                    <div class="week"><i class="y"></i><i class="y"></i><i></i><i class="y"></i><i class="y"></i><i class="y"></i><i></i></div>
+                    <p class="small">Kept 5 times this week. Skipped days don't reset anything.</p>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+        <p class="caption">Layout: a desk of paper cards. The bookmark holds your exact context, the assistant's suggestion is visibly separate (sage) and always declinable, and controls look pressable.</p>
+      </div>
+    </div>
+
+    <div class="blk wide">
+      <div class="lbl">Landing hero<b>Website, 1440 frame</b></div>
+      <div class="body">
+        <div class="scroller">
+          <div class="frame">
+            <div class="fbar"><div class="dots"><i></i><i></i><i></i></div><span class="url">[productname].app</span><span></span></div>
+            <div class="h3x">
+              <nav><span style="display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12.5px"><svg viewBox="0 0 64 64" width="28" height="28"><use href="#s3-bookmark"/></svg>[PRODUCT NAME]</span><span class="l"><span>How it works</span><span>Bookmarks</span><span>Habits</span><span>Pricing</span></span><span>Sign in</span></nav>
+              <div>
+                <div class="k">For people with full days and real lives</div>
+                <h3>A workspace that <span>remembers</span> for you.</h3>
+                <p>Plan your day, protect your focus and build habits at a human pace. Get interrupted, come back, and find everything exactly where you left it.</p>
+                <div class="row"><button class="btn">Get early access</button><button class="btn soft">See it in action</button></div>
+              </div>
+              <div class="desk" aria-hidden="true">
+                <div class="c" style="left:40px; top:30px; width:300px; transform:rotate(-3deg); background:var(--soft)"><span class="tag">A quiet suggestion</span><span>Move "Outline workshop agenda" to Friday morning, when you usually have more energy?</span></div>
+                <div class="c" style="left:110px; top:140px; width:330px; z-index:2"><span class="tag">Your bookmark</span><b>Q1 roadmap narrative</b><span style="color:var(--muted)">"Why now", paragraph 3 · roadmap.doc open</span><div style="display:flex; gap:8px; margin-top:6px"><span style="background:var(--accent); color:var(--on-accent); padding:8px 14px; border-radius:12px; font-weight:600">Resume</span><span style="background:var(--bg); padding:8px 14px; border-radius:12px">Not now</span></div><span style="position:absolute; right:22px; top:0; width:16px; height:28px; background:var(--plum); clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)"></span></div>
+                <div class="c" style="left:20px; top:320px; width:220px; transform:rotate(2deg)"><span class="tag">Read 20 pages</span><div style="display:grid; grid-template-columns:repeat(7,1fr); gap:5px"><i style="aspect-ratio:1; border-radius:6px; background:var(--honey)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--honey)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--bg)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--honey)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--honey)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--honey)"></i><i style="aspect-ratio:1; border-radius:6px; background:var(--bg)"></i></div></div>
+                <div class="c" style="left:290px; top:310px; width:170px; justify-items:center; transform:rotate(-2deg)"><svg viewBox="0 0 100 100" width="96" height="96"><circle cx="50" cy="50" r="40" fill="var(--bg)"/><circle cx="50" cy="50" r="31" fill="var(--surface)" style="filter:drop-shadow(0 3px 4px rgba(39,35,31,.18))"/><rect x="47.5" y="22" width="5" height="16" rx="2.5" fill="var(--accent)" transform="rotate(60 50 50)"/></svg><span class="tag">Focus · 25 min</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== COMPARE ============================== -->
+<section class="compare gut" id="compare">
+  <div class="wrap">
+    <div class="eyebrow">Comparison</div>
+    <h2>How the three directions stack up</h2>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th></th><th class="rec">1 · Calm Retro-Future<small>Recommended</small></th><th>2 · Momentum &amp; Continuity</th><th>3 · Warm Intelligent Workspace</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>In one line</th><td class="rec">Optimistic future, told quietly.</td><td>Your work as a thread you never lose.</td><td>A thoughtful desk with a kind assistant.</td></tr>
+          <tr><th>Strengths</th><td class="rec">Most distinctive in the category. The horizon makes "progress without pressure" visible. Pastels stay calm at scale. One type family keeps the UI coherent.</td><td>The strongest product story: resume after interruption is literally the logo. Excellent for onboarding and marketing diagrams. Crisp and precise.</td><td>Most comfortable for long daily sessions. The clearest home for an AI assistant, kept apart by colour. Tactile controls feel trustworthy.</td></tr>
+          <tr><th>Weaknesses</th><td class="rec">Pastels need discipline to stay accessible; they can never carry text. The wide display face must stay at large sizes. Could drift into "wellness app" if illustration gets soft.</td><td>Orbits and paths can tip into a dashboard or "space company" look. Ultramarine-on-grey is closer to existing productivity tools. The motion is the idea, so it suffers more in reduced motion.</td><td>Warm stone and paper is a popular look right now, so it's the least ownable. Shadows and grain cost polish to get right across platforms. Retro-futurism is the faintest here.</td></tr>
+          <tr><th>Originality</th><td class="rec"><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span>High</td><td><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span>Good</td><td><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span>Moderate</td></tr>
+          <tr><th>Daily use</th><td class="rec"><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span>Calm and airy; very low visual stress</td><td><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span>Efficient; slightly cooler and denser</td><td><span class="dots5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span>Warmest, most comfortable</td></tr>
+          <tr><th>Accessibility</th><td class="rec">All text pairs 5.3:1 or better. Risk: pastel misuse as text. Mitigated by a "fills only" rule.</td><td>Strongest raw contrast (up to 15:1). Risk: thin orbit lines as meaning-bearing graphics.</td><td>Good contrast. Risk: shadow-only edges for low-vision users; needs a border fallback.</td></tr>
+          <tr><th>Fit to brief</th><td class="rec">Hits every guardrail. The only route where "retro-futurism" is clearly present but not kitsch.</td><td>Strong on "sustainable progress"; weakest on "warm".</td><td>Strong on "warm" and "human"; weakest on "distinctive" and "retro-future".</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="recbox" id="recommendation">
+      <div class="main">
+        <span class="await"><i></i>Awaiting your approval</span>
+        <h3>Recommendation: Direction 1, Calm Retro-Future</h3>
+        <p>It's the only direction that is calm, warm and unmistakably ours at the same time. The rising horizon expresses "progress without pressure" in a single shape, the pastel-plus-deep-green palette is rare in productivity software, and Lexend's readability makes the system as kind as it looks.</p>
+        <p>I'd strengthen it with one idea from Direction 2: the dashed "paused node" and the "you are here" marker for the resume experience, drawn in Direction 1's language (soft sun instead of marigold). Direction 3's rule that the assistant always gets its own tint and always offers "Leave as is" should carry over as a product principle whichever route you choose.</p>
+      </div>
+      <div class="side">
+        <b>Once you approve a direction, the full design system will cover:</b>
+        <ul>
+          <li>Final symbol refinement and app icon at every size</li>
+          <li>Colour tokens for light, dark and high contrast</li>
+          <li>Type scale, spacing, radius and elevation tokens</li>
+          <li>Core components: tasks, resume card, focus timer, habits, assistant</li>
+          <li>Motion specs and a reduced-motion variant</li>
+          <li>Illustration kit and photography guidance</li>
+        </ul>
+        <p class="note">Tell me which direction you want, or which pieces to combine, and I'll build from there. The wordmark stays open until the name is final.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="gut"><div class="wrap">[PRODUCT NAME] identity exploration · Round 1 · All typefaces are open source (SIL Open Font License) and free for commercial use: Lexend Exa, Lexend, DM Mono, Sora, Manrope, IBM Plex Mono, Bricolage Grotesque, Figtree, Spline Sans Mono.</div></footer>
+
+<script>
+(function(){
+  // Dark preview toggles on product frames
+  document.querySelectorAll('[data-dark]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var f = document.getElementById(btn.getAttribute('data-dark'));
+      var on = f.classList.toggle('is-dark');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? 'Light' : 'Dark preview';
+    });
+  });
+
+  // D1 replay
+  var m1 = document.getElementById('m1');
+  function playM1(){ m1.classList.remove('go'); void m1.offsetWidth; m1.classList.add('go'); }
+  document.querySelector('[data-replay="m1"]').addEventListener('click', playM1);
+  playM1();
+
+  // D2 path progress
+  var prog = document.getElementById('m2prog'), dot = document.getElementById('m2dot');
+  var len = prog.getTotalLength(), stops = [0, .22, .45, .7, 1], step = 1;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  prog.style.strokeDasharray = len; prog.style.strokeDashoffset = len * (1 - stops[step]);
+  function placeDot(frac){ var p = prog.getPointAtLength(len * frac); dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); }
+  placeDot(stops[step]);
+  function moveTo(target){
+    var from = currentFrac, start = null, dur = reduce ? 0 : 700;
+    prog.style.strokeDashoffset = len * (1 - target);
+    if (!dur){ placeDot(target); currentFrac = target; return; }
+    function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+    function tick(ts){ if(!start) start = ts; var t = Math.min(1, (ts-start)/dur); var v = from + (target-from)*ease(t); placeDot(v); if (t < 1) requestAnimationFrame(tick); else currentFrac = target; }
+    requestAnimationFrame(tick);
+  }
+  var currentFrac = stops[step];
+  document.getElementById('m2next').addEventListener('click', function(){ if (step < stops.length-1){ step++; moveTo(stops[step]); } });
+  document.getElementById('m2reset').addEventListener('click', function(){ step = 1; moveTo(stops[step]); });
+  if (reduce){ document.querySelectorAll('svg').forEach(function(s){ if (s.pauseAnimations) s.pauseAnimations(); }); }
+
+  // D3 card stack
+  var stack = document.getElementById('m3stack');
+  var cards = Array.prototype.slice.call(stack.querySelectorAll('button'));
+  var order = [0,1,2];
+  function layout(){
+    order.forEach(function(ci, pos){
+      var c = cards[ci]; var y = pos * 26; var r = [0, 2.5, -2][pos];
+      c.style.setProperty('--y', y + 'px');
+      c.style.transform = 'translateY(' + y + 'px) rotate(' + r + 'deg) scale(' + (1 - pos*0.03) + ')';
+      c.style.zIndex = String(10 - pos);
+      c.style.background = pos === 0 ? 'var(--surface)' : 'var(--bg)';
+    });
+  }
+  cards.forEach(function(c, i){ c.addEventListener('click', function(){ order = [i].concat(order.filter(function(x){ return x !== i; })); layout(); }); });
+  layout();
+})();
+</script>
