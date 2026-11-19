@@ -1,0 +1,904 @@
+<title>Fermata, Direction One</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Jost:wght@200..500&family=Martian+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@1,6..72,300..400&display=swap">
+<style>
+/* Layout: an editorial monograph. Full-bleed colour fields alternate with a 12-column text grid; the product appears as large framed plates. */
+:root{
+  --porcelain:#EEF0EC; --paper:#F8F8F5; --ink:#13191C; --graphite:#586269; --hair:#D3D8D4;
+  --lagoon:#1F4A46; --on-lagoon:#EEF0EC; --lagoon-deep:#12302D; --seaglass:#BCD7CD; --sodium:#E6A445; --lilac:#CAC5E3;
+  --night:#0D1514; --night-2:#142120; --night-ink:#E9EEEA; --night-mute:#9DABA7; --night-hair:#263533;
+  --accent:var(--lagoon); --on-accent:#FFFFFF;
+  --f-display:"Jost", "Futura", "Avenir Next", system-ui, sans-serif;
+  --f-serif:"Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-ui:"Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"Martian Mono", ui-monospace, Menlo, monospace;
+  --ease-hold:cubic-bezier(.16,1,.3,1); --ease-go:cubic-bezier(.7,0,.84,0);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --porcelain:#0D1514; --paper:#142120; --ink:#E9EEEA; --graphite:#9DABA7; --hair:#263533;
+  --lagoon:#16332F; --on-lagoon:#E9EEEA; --lagoon-deep:#0A1B19; --seaglass:#274540; --lilac:#4E4A70;
+  --accent:#8CC7B9; --on-accent:#0D1514; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --porcelain:#0D1514; --paper:#142120; --ink:#E9EEEA; --graphite:#9DABA7; --hair:#263533;
+  --lagoon:#16332F; --on-lagoon:#E9EEEA; --lagoon-deep:#0A1B19; --seaglass:#274540; --lilac:#4E4A70;
+  --accent:#8CC7B9; --on-accent:#0D1514; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--porcelain); color:var(--ink); font-family:var(--f-ui); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:40; background:var(--porcelain)}
+h1,h2,h3,h4{margin:0; font-weight:inherit; text-wrap:balance}
+p{margin:0}
+button{font:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--sodium); outline-offset:3px; border-radius:4px}
+.gut{padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px; margin:0 auto}
+.label{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--graphite)}
+.it{font-family:var(--f-serif); font-style:italic; font-weight:300; letter-spacing:-.01em}
+.disp{font-family:var(--f-display); font-weight:300; letter-spacing:-.045em; line-height:.98}
+.tn{font-variant-numeric:tabular-nums}
+
+/* Fermata glyph as inline type ornament */
+.fm{display:inline-block; width:.9em; height:.55em; vertical-align:.32em; margin:0 .08em}
+.fm svg{width:100%; height:100%; display:block}
+
+/* ---------- Running head ---------- */
+.runhead{position:sticky; top:env(safe-area-inset-top,0px); z-index:30; background:color-mix(in srgb, var(--porcelain) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--hair)}
+.runhead .wrap{display:flex; align-items:center; gap:20px; padding-block:12px; overflow-x:auto; scrollbar-width:none}
+.runhead .mark{display:flex; align-items:center; gap:10px; flex:none; font-family:var(--f-mono); font-size:11px; letter-spacing:.06em}
+.runhead .mark svg{width:26px; height:26px}
+.runhead nav{display:flex; gap:2px; margin-left:auto; flex:none}
+.runhead nav a{font-size:13px; color:var(--graphite); text-decoration:none; padding:5px 10px; border-radius:99px}
+.runhead nav a:hover{color:var(--ink); background:var(--paper)}
+
+/* ---------- Cover ---------- */
+.cover{background:var(--lagoon); color:var(--on-lagoon)}
+.cover .wrap{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:48px; align-items:center; padding-block:56px 64px}
+.cover .label{color:color-mix(in srgb, var(--on-lagoon) 70%, transparent)}
+.cover h1{font-family:var(--f-display); font-weight:200; font-size:clamp(72px,11vw,168px); letter-spacing:-.06em; line-height:.86; margin-top:22px}
+.cover .lede{font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:clamp(21px,2.1vw,27px); line-height:1.38; max-width:30ch; margin-top:30px}
+.cover .meta{display:flex; flex-wrap:wrap; gap:8px 28px; margin-top:40px; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:color-mix(in srgb, var(--on-lagoon) 72%, transparent)}
+.stage3d{position:relative; aspect-ratio:4/5; max-width:100%; border-radius:4px; overflow:hidden; background:#BCD7CD}
+.stage3d canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.stage3d .fallback{position:absolute; inset:0; display:grid; place-items:center}
+.stage3d .fallback svg{width:46%}
+.stage3d figcaption{position:absolute; left:16px; bottom:14px; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#12302D}
+
+/* ---------- Sections ---------- */
+section.sec{padding-block:112px}
+.sec-head{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:24px; margin-bottom:64px}
+.sec-head .label{grid-column:1 / span 3; padding-top:14px}
+.sec-head h2{grid-column:4 / span 9; font-family:var(--f-display); font-weight:300; font-size:clamp(40px,5.4vw,76px); letter-spacing:-.05em; line-height:1}
+.sec-head h2 .it{font-weight:300; letter-spacing:-.03em}
+.cols{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:24px}
+.essay{grid-column:4 / span 6; display:grid; gap:18px; font-size:17.5px; line-height:1.65}
+.essay p:first-child::first-letter{font-family:var(--f-display); font-weight:300; float:left; font-size:4.1em; line-height:.82; padding:.06em .1em 0 0; color:var(--accent)}
+.margin{grid-column:10 / span 3; display:grid; gap:20px; align-content:start; padding-top:6px}
+.note{font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:16px; line-height:1.45; color:var(--graphite); border-top:1px solid var(--hair); padding-top:10px}
+.note b{display:block; font-family:var(--f-mono); font-style:normal; font-weight:400; font-size:10px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:6px}
+.pull{grid-column:2 / span 10; font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:clamp(30px,3.6vw,50px); line-height:1.18; letter-spacing:-.02em; margin-block:72px 8px; text-wrap:balance}
+.pull cite{display:block; margin-top:18px; font-family:var(--f-mono); font-style:normal; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--graphite)}
+
+/* notation → mark diagram */
+.evo{grid-column:1 / -1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; margin-top:72px; border-top:1px solid var(--ink)}
+.evo figure{margin:0; padding:28px 24px 8px 0; display:grid; gap:14px}
+.evo figure + figure{padding-left:24px; border-left:1px solid var(--hair)}
+.evo svg{width:100%; height:180px}
+.evo figcaption{font-size:14px; color:var(--graphite)}
+.evo figcaption b{display:block; font-family:var(--f-mono); font-weight:400; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); margin-bottom:4px}
+
+/* ---------- Symbol ---------- */
+.sym-grid{display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:24px}
+.plate{background:var(--paper); border:1px solid var(--hair); position:relative}
+.plate .cap{position:absolute; left:16px; top:14px}
+.construct svg{display:block; width:100%; height:auto}
+.icons-row{display:grid; grid-template-rows:auto auto; gap:24px}
+.appicon{background:var(--lagoon-deep); display:grid; place-items:center; padding:48px 20px 40px; position:relative}
+.appicon .cap{color:color-mix(in srgb, #EEF0EC 70%, transparent)}
+.appicon .squircle{width:min(200px,60%); aspect-ratio:1; border-radius:23%; background:linear-gradient(160deg,#245650,#1F4A46 55%,#1A403C); box-shadow:0 30px 60px -20px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08); display:grid; place-items:center}
+.appicon .squircle svg{width:64%}
+.sizes{display:flex; align-items:flex-end; gap:28px; padding:56px 24px 28px; flex-wrap:wrap}
+.sizes div{display:grid; justify-items:center; gap:10px; font-family:var(--f-mono); font-size:10px; color:var(--graphite)}
+.lockups{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:24px}
+.lockups .plate{min-height:220px; display:grid; place-items:center; padding:48px 20px 28px}
+.lockups .wm{display:flex; align-items:center; gap:14px; font-family:var(--f-display); font-weight:400; font-size:24px; letter-spacing:-.02em}
+.lockups .wm svg{width:46px}
+.lockups .dark{background:var(--lagoon); border-color:var(--lagoon); color:#EEF0EC}
+.lockups .dark .cap{color:color-mix(in srgb,#EEF0EC 70%,transparent)}
+.lockups .sod{background:var(--sodium); border-color:var(--sodium); color:#13191C}
+.lockups .sod .cap{color:#13191C}
+.rules{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:40px}
+.rules div{border-top:1px solid var(--ink); padding-top:14px; font-size:15px}
+.rules b{display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:400; margin-bottom:6px}
+
+/* ---------- Type ---------- */
+.type-hero{border-top:1px solid var(--ink); border-bottom:1px solid var(--hair); padding-block:40px 48px; display:grid; gap:10px}
+.type-hero .big{font-family:var(--f-display); font-weight:300; font-size:clamp(56px,9.2vw,140px); letter-spacing:-.055em; line-height:.92}
+.type-hero .big .it{font-weight:300; letter-spacing:-.035em; display:inline-block; line-height:.92}
+.faces{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; border-bottom:1px solid var(--hair)}
+.faces > div{padding:28px 24px 32px 0; display:grid; gap:12px; align-content:start}
+.faces > div + div{padding-left:24px; border-left:1px solid var(--hair)}
+.faces .glyph{font-size:76px; line-height:1}
+.faces h4{font-size:17px; font-weight:600}
+.faces p{font-size:14px; color:var(--graphite)}
+.details{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:48px}
+.details .plate{padding:44px 24px 24px; display:grid; gap:14px; align-content:start}
+.details .plate p{font-size:14px; color:var(--graphite)}
+.clock{font-family:var(--f-display); font-weight:200; font-size:84px; letter-spacing:-.05em; line-height:1; display:flex; align-items:center; font-variant-numeric:tabular-nums}
+.colon{display:inline-grid; gap:.16em; margin:0 .06em; transform:translateY(.02em)}
+.colon i{width:.11em; height:.11em; border-radius:50%; background:var(--sodium); display:block}
+.scale{margin-top:48px; display:grid}
+.scale > div{display:grid; grid-template-columns:200px minmax(0,1fr); gap:24px; align-items:baseline; padding-block:16px; border-top:1px solid var(--hair)}
+.scale code{font-family:var(--f-mono); font-size:10.5px; color:var(--graphite); letter-spacing:.04em}
+
+/* ---------- Colour ---------- */
+.bands{display:flex; height:420px; border:1px solid var(--hair)}
+.bands > div{position:relative; padding:18px 16px; display:flex; flex-direction:column; justify-content:space-between; min-width:0}
+.bands b{font-family:var(--f-display); font-weight:400; font-size:22px; letter-spacing:-.02em}
+.bands code{font-family:var(--f-mono); font-size:10.5px; display:block; line-height:1.7}
+.bands small{font-size:12.5px; display:block; margin-top:4px; opacity:.85}
+.usage{display:flex; height:10px; margin-top:14px}
+.usage i{display:block}
+.colour-notes{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:40px}
+.colour-notes div{border-top:1px solid var(--ink); padding-top:14px; font-size:15px}
+.colour-notes b{display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:400; margin-bottom:6px}
+.night-strip{display:flex; flex-wrap:wrap; margin-top:24px; border:1px solid var(--hair)}
+.night-strip div{min-width:96px}
+.night-strip div{flex:1 1 0; min-height:84px; padding:12px; font-family:var(--f-mono); font-size:10px; line-height:1.6; display:flex; align-items:flex-end}
+
+/* ---------- Imagery ---------- */
+.contact{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; align-items:end}
+.contact figure{margin:0; display:grid; gap:12px}
+.contact .print{background:var(--paper); border:1px solid var(--hair); padding:14px 14px 0; display:grid; justify-items:center}
+.contact img{display:block; width:100%; max-width:200px; height:auto; image-rendering:auto}
+.contact .print span{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.1em; color:var(--graphite); padding:10px 0 12px; align-self:start; justify-self:start}
+.contact figcaption{font-size:14px}
+.contact figcaption a{color:var(--accent); font-size:13px}
+.ad-rules{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; margin-top:56px}
+.ad-rules div{border-top:1px solid var(--ink); padding-top:14px; font-size:15px}
+.ad-rules b{display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:400; margin-bottom:6px}
+.ad-rules .never{border-top-color:var(--sodium)}
+
+/* ---------- Plates (product frames) ---------- */
+.plate-head{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:24px; margin:96px 0 28px; align-items:end}
+.plate-head:first-of-type{margin-top:0}
+.plate-head h3{grid-column:1 / span 5; font-family:var(--f-display); font-weight:300; font-size:clamp(30px,3.4vw,46px); letter-spacing:-.045em; line-height:1}
+.plate-head h3 small{display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--graphite); margin-bottom:12px; font-weight:400}
+.plate-head p{grid-column:7 / span 6; font-size:16px; color:var(--graphite)}
+.scroller{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.screen{min-width:1120px; border:1px solid var(--hair); background:var(--porcelain); color:var(--ink); box-shadow:0 40px 80px -50px rgba(18,48,45,.45); font-family:var(--f-ui)}
+
+/* Today */
+.today{display:grid; grid-template-columns:200px minmax(0,1fr) 280px; min-height:720px}
+.today .rail{border-right:1px solid var(--hair); padding:24px 18px; display:flex; flex-direction:column; gap:28px}
+.today .brand{display:flex; gap:10px; align-items:center; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.04em}
+.today .brand svg{width:26px}
+.today .nav{display:grid; gap:2px}
+.today .nav a{display:flex; align-items:center; gap:12px; padding:9px 10px; font-size:14.5px; color:var(--ink); text-decoration:none; border-radius:8px}
+.today .nav a svg{width:20px; height:20px; flex:none}
+.today .nav a.on{background:var(--paper); box-shadow:inset 0 0 0 1px var(--hair)}
+.today .quiet{margin-top:auto; font-size:12.5px; color:var(--graphite); display:grid; gap:4px}
+.today .page{padding:36px 48px 40px; display:grid; gap:32px; align-content:start}
+.today .dateline{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:20px; align-items:end; border-bottom:1px solid var(--ink); padding-bottom:20px}
+.today .num{font-family:var(--f-display); font-weight:200; font-size:120px; line-height:.78; letter-spacing:-.06em}
+.today .dl{display:grid; gap:2px}
+.today .dl .day{font-family:var(--f-display); font-weight:400; font-size:26px; letter-spacing:-.02em; line-height:1}
+.today .dl .mon{font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:20px; color:var(--graphite)}
+.tempo{display:grid; gap:8px; justify-items:end}
+.tempo .seg{display:flex; border:1px solid var(--hair); border-radius:99px; padding:3px; background:var(--paper)}
+.tempo .seg button{border:0; background:transparent; color:var(--graphite); border-radius:99px; padding:6px 14px; display:grid; line-height:1.15; text-align:center}
+.tempo .seg button span{font-family:var(--f-serif); font-style:italic; font-size:15px; color:inherit}
+.tempo .seg button small{font-family:var(--f-mono); font-size:8.5px; letter-spacing:.1em; text-transform:uppercase}
+.tempo .seg button[aria-pressed="true"]{background:var(--ink); color:var(--porcelain)}
+.today h4{font-family:var(--f-display); font-weight:300; font-size:40px; letter-spacing:-.045em; line-height:1.05}
+.today h4 .it{letter-spacing:-.03em}
+.tasks{display:grid}
+.task{display:grid; grid-template-columns:28px minmax(0,1fr) auto; gap:14px; align-items:center; padding:15px 0; border-top:1px solid var(--hair)}
+.task:last-child{border-bottom:1px solid var(--hair)}
+.task .ck{width:20px; height:20px; border-radius:50%; border:1.5px solid var(--graphite)}
+.task .t{font-size:16.5px; display:grid; gap:2px}
+.task .t small{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--graphite)}
+.task .d{font-family:var(--f-mono); font-size:11px; color:var(--graphite); font-variant-numeric:tabular-nums}
+.task.held .ck{border-color:transparent; display:grid; place-items:center}
+.task.held .ck svg{width:20px}
+.task.done .ck{background:var(--ink); border-color:var(--ink); box-shadow:inset 0 0 0 4px var(--porcelain)}
+.task.done .t span{color:var(--graphite)}
+.rhythm{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:24px; align-items:center; border:1px solid var(--hair); background:var(--paper); padding:18px 22px}
+.rhythm svg{width:100%; max-width:420px; height:auto; display:block}
+.rhythm p{font-size:13.5px; color:var(--graphite); max-width:26ch}
+.rhythm p b{display:block; color:var(--ink); font-weight:600; font-size:14.5px}
+.today .marg{border-left:1px solid var(--hair); padding:36px 24px; display:grid; gap:26px; align-content:start}
+.today .marg .note{font-size:17px}
+.mini-return{background:var(--lagoon); color:var(--on-lagoon); padding:18px; display:grid; gap:10px}
+.mini-return .label{color:color-mix(in srgb, var(--on-lagoon) 72%, transparent)}
+.mini-return b{font-family:var(--f-display); font-weight:400; font-size:20px; letter-spacing:-.02em; line-height:1.1}
+.btn-dot{display:inline-flex; align-items:center; gap:10px; border:0; border-radius:99px; padding:10px 18px 10px 12px; font-size:14px; font-weight:600; background:var(--porcelain); color:var(--ink); width:fit-content}
+.btn-dot i{width:12px; height:12px; border-radius:50%; background:var(--sodium)}
+.mini-return .btn-dot{background:#EEF0EC; color:#13191C}
+
+/* Return */
+.ret{background:var(--lagoon); color:var(--on-lagoon); display:grid; grid-template-columns:minmax(0,1fr) 300px; min-height:680px}
+.ret .main{padding:56px 72px; display:grid; gap:28px; align-content:center}
+.ret .label{color:color-mix(in srgb, var(--on-lagoon) 72%, transparent)}
+.ret h4{font-family:var(--f-display); font-weight:300; font-size:58px; letter-spacing:-.05em; line-height:1.02; max-width:16ch}
+.ret blockquote{margin:0; border-left:2px solid var(--sodium); padding:4px 0 4px 24px; max-width:40ch}
+.ret blockquote p{font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:27px; line-height:1.32}
+.ret blockquote footer{margin-top:10px; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:color-mix(in srgb, var(--on-lagoon) 70%, transparent)}
+.ret .next{font-size:17px}
+.ret .ctx{display:flex; gap:8px; flex-wrap:wrap}
+.ret .ctx span{font-family:var(--f-mono); font-size:10.5px; padding:6px 10px; border:1px solid color-mix(in srgb, var(--on-lagoon) 28%, transparent); border-radius:99px}
+.ret .acts{display:flex; gap:22px; align-items:center}
+.ret .acts .btn-dot{padding:14px 24px 14px 16px; font-size:15px; background:#EEF0EC; color:#13191C}
+.ret .acts a{color:var(--on-lagoon); font-size:14.5px; text-underline-offset:4px}
+.ret .score{border-left:1px solid color-mix(in srgb, var(--on-lagoon) 18%, transparent); padding:56px 32px; display:grid; gap:0; align-content:center}
+.ret .score .row{display:grid; grid-template-columns:22px minmax(0,1fr); gap:12px; align-items:center; padding:14px 0; border-top:1px solid color-mix(in srgb, var(--on-lagoon) 16%, transparent); font-size:14px}
+.ret .score .row i{width:10px; height:10px; border-radius:50%; border:1.5px solid currentColor; justify-self:center}
+.ret .score .row.done i{background:currentColor}
+.ret .score .row.here svg{width:22px}
+.ret .score .row.later{opacity:.6}
+
+/* Focus */
+.focus{background:var(--night); color:#E9EEEA; min-height:640px; position:relative; overflow:hidden; display:grid; place-items:center; text-align:center}
+.focus::before{content:""; position:absolute; width:900px; height:900px; left:50%; top:60%; transform:translate(-50%,-50%); background:radial-gradient(closest-side, rgba(31,74,70,.75), transparent)}
+.focus > *{position:relative}
+.focus .inner{display:grid; gap:22px; justify-items:center}
+.focus .label{color:#9DABA7}
+.focus .clock{font-size:208px; color:#E9EEEA; letter-spacing:-.06em}
+.focus .bar{width:420px; height:1px; background:#263533; position:relative}
+.focus .bar i{position:absolute; left:0; top:0; height:1px; width:42%; background:#E9EEEA}
+.focus .bar b{position:absolute; left:42%; top:-5px; width:11px; height:11px; margin-left:-5px; border-radius:50%; background:var(--sodium)}
+.focus .acts{display:flex; gap:12px}
+.focus .acts button{display:inline-flex; gap:10px; align-items:center; background:transparent; color:#E9EEEA; border:1px solid #2F4340; border-radius:99px; padding:11px 20px; font-size:14px}
+.focus .acts button svg{width:22px}
+.focus .foot{position:absolute; bottom:22px; left:0; right:0; font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:16px; color:#9DABA7}
+
+/* Landing */
+.land{background:var(--porcelain)}
+.land nav{display:flex; align-items:center; gap:28px; padding:20px 40px; font-size:14px; border-bottom:1px solid var(--hair)}
+.land nav .brand{display:flex; gap:10px; align-items:center; font-family:var(--f-mono); font-size:11px; letter-spacing:.04em; margin-right:auto}
+.land nav .brand svg{width:28px}
+.land nav span{color:var(--graphite)}
+.land nav .cta{color:var(--ink); font-weight:600}
+.land .hero{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); min-height:660px}
+.land .copy{padding:72px 40px 40px; display:flex; flex-direction:column; gap:26px}
+.land h4{font-family:var(--f-display); font-weight:300; font-size:96px; letter-spacing:-.06em; line-height:.92}
+.land h4 .ln{display:block}
+.land h4 .it{letter-spacing:-.035em; font-weight:300; line-height:.92; transform:translateY(.17em)}
+.land .copy > p{font-size:19px; color:var(--graphite); max-width:40ch; line-height:1.55}
+.land .acts{display:flex; gap:24px; align-items:center}
+.land .acts .btn{border:0; border-radius:99px; background:var(--accent); color:var(--on-accent); padding:15px 26px; font-size:15.5px; font-weight:600}
+.land .acts a{color:var(--ink); font-size:15px; text-underline-offset:4px}
+.land .proof{margin-top:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; border-top:1px solid var(--hair); padding-top:18px}
+.land .proof div{font-size:13.5px; color:var(--graphite)}
+.land .proof b{display:block; font-family:var(--f-display); font-weight:400; font-size:17px; color:var(--ink); letter-spacing:-.01em}
+.land .visual{position:relative; min-height:560px; background:#EEF0EC}
+.land .visual canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.land .visual figcaption{position:absolute; left:20px; bottom:16px; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#12302D}
+.land .visual .fallback{position:absolute; inset:0; display:grid; place-items:center}
+.land .visual .fallback svg{width:40%}
+
+/* ---------- Motion ---------- */
+.motion{display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:24px}
+.mstage{background:var(--paper); border:1px solid var(--hair); position:relative; padding:20px 20px 24px}
+.mstage svg{display:block; width:100%; height:auto}
+.mstage .acts{display:flex; gap:8px}
+.mstage .acts button{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--hair); background:var(--porcelain); color:var(--ink); border-radius:99px; padding:8px 14px}
+#mdot{transition:transform .7s var(--ease-hold), opacity .3s}
+#mdot.go{transition:transform .45s var(--ease-go), opacity .45s}
+.principles{display:grid; gap:0}
+.principles div{border-top:1px solid var(--hair); padding:16px 0; display:grid; grid-template-columns:110px minmax(0,1fr); gap:16px; font-size:15px}
+.principles div:first-child{border-top-color:var(--ink)}
+.principles b{font-family:var(--f-mono); font-weight:400; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--graphite); padding-top:3px}
+.principles code{font-family:var(--f-mono); font-size:11px}
+
+/* ---------- System details ---------- */
+.iconset{display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); border-top:1px solid var(--ink); border-left:1px solid var(--hair)}
+.iconset figure{margin:0; padding:28px 8px 14px; display:grid; justify-items:center; gap:14px; border-right:1px solid var(--hair); border-bottom:1px solid var(--hair)}
+.iconset svg{width:30px; height:30px; color:var(--ink)}
+.iconset figcaption{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--graphite)}
+.sys{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:48px}
+.sys .plate{padding:44px 22px 22px; display:grid; gap:14px; align-content:start}
+.sys .plate p{font-size:14px; color:var(--graphite)}
+.gridviz{height:120px; display:grid; grid-template-columns:repeat(12,1fr); gap:6px}
+.gridviz i{background:color-mix(in srgb, var(--accent) 16%, transparent); border-inline:1px solid color-mix(in srgb, var(--accent) 35%, transparent)}
+.radii{display:flex; gap:10px; flex-wrap:wrap}
+.radii span{width:62px; height:46px; border:1.5px solid var(--ink); display:flex; align-items:flex-end; justify-content:center; padding-bottom:4px; font-family:var(--f-mono); font-size:9.5px}
+.spacing{display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap}
+.spacing span{display:grid; justify-items:center; gap:6px; font-family:var(--f-mono); font-size:9.5px; color:var(--graphite)}
+.spacing i{display:block; background:var(--ink)}
+
+/* ---------- Changes ---------- */
+.changes{background:var(--paper); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:760px; font-size:15px}
+th,td{text-align:left; vertical-align:top; padding:18px 18px 18px 0; border-top:1px solid var(--hair)}
+thead th{border-top:1px solid var(--ink); font-family:var(--f-mono); font-weight:400; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--graphite)}
+tbody th{font-family:var(--f-display); font-weight:400; font-size:19px; letter-spacing:-.01em; width:170px}
+td.was{color:var(--graphite)}
+.next-step{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:24px; margin-top:72px; align-items:start}
+.next-step .await{grid-column:1 / span 3; display:inline-flex; gap:10px; align-items:center; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase}
+.next-step .await i{width:12px; height:12px; border-radius:50%; background:var(--sodium)}
+.next-step p{grid-column:4 / span 7; font-family:var(--f-serif); font-style:italic; font-weight:300; font-size:26px; line-height:1.35}
+body > footer{padding-block:40px 64px; font-size:13px; color:var(--graphite)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:960px){
+  section.sec{padding-block:72px}
+  .cover .wrap, .sym-grid, .motion{grid-template-columns:minmax(0,1fr)}
+  .sec-head .label, .sec-head h2, .essay, .margin, .pull, .plate-head h3, .plate-head p, .next-step .await, .next-step p{grid-column:1 / -1}
+  .sec-head{gap:12px; margin-bottom:40px}
+  .evo, .lockups, .rules, .details, .colour-notes, .sys{grid-template-columns:minmax(0,1fr)}
+  .evo figure + figure{border-left:0; padding-left:0; border-top:1px solid var(--hair)}
+  .faces{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .faces > div:nth-child(3){padding-left:0; border-left:0}
+  .contact, .ad-rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .iconset{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .bands{height:auto; flex-direction:column}
+  .bands > div{min-height:92px; flex:none !important}
+  .scale > div{grid-template-columns:minmax(0,1fr); gap:6px}
+  .plate-head{margin-top:64px}
+}
+@media (max-width:520px){ .faces{grid-template-columns:minmax(0,1fr)} .faces > div + div{padding-left:0; border-left:0; border-top:1px solid var(--hair)} .contact, .ad-rules{grid-template-columns:minmax(0,1fr)} .clock{font-size:64px} }
+@media (prefers-reduced-motion: reduce){ *, *::before, *::after{transition:none !important; animation:none !important} html{scroll-behavior:auto} }
+</style>
+
+<!-- Symbol definitions -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fermata" viewBox="0 0 64 64"><path d="M4 46A28 28 0 0 1 60 46H52A20 16 0 0 0 12 46Z" fill="currentColor"/><circle cx="32" cy="40" r="6" fill="#E6A445"/></symbol>
+    <symbol id="fermata-line" viewBox="0 0 24 24"><path d="M4 16a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="14.2" r="1.9" fill="#E6A445"/></symbol>
+  </defs>
+</svg>
+
+<header class="runhead gut">
+  <div class="wrap">
+    <span class="mark"><svg viewBox="0 0 64 64" style="color:var(--ink)"><use href="#fermata"/></svg>[PRODUCT NAME] · Direction 1, revised</span>
+    <nav aria-label="Sections">
+      <a href="#idea">Idea</a><a href="#symbol">Symbol</a><a href="#type">Type</a><a href="#colour">Colour</a><a href="#imagery">Imagery</a><a href="#product">Product</a><a href="#web">Web</a><a href="#motion">Motion</a><a href="#system">System</a><a href="#changes">Changes</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================== COVER ============================== -->
+<div class="cover gut">
+  <div class="wrap">
+    <div>
+      <div class="label">[PRODUCT NAME] · Identity · Direction 1 · Revision 2</div>
+      <h1>Fermata</h1>
+      <p class="lede">In music, a fermata asks the player to hold a note for as long as feels right, then carry on. It's the only mark in notation that hands the timing back to the performer.</p>
+      <div class="meta"><span>Calm Retro-Future, editorial</span><span>19 November 2026</span><span>For approval</span></div>
+    </div>
+    <figure class="stage3d" id="cover3d" style="margin:0">
+      <div class="fallback" aria-hidden="true"><svg viewBox="0 0 64 64" style="color:#F2F1EC"><use href="#fermata"/></svg></div>
+      <canvas aria-label="Rendered brand object: a porcelain arch with an amber sphere resting beneath it"></canvas>
+      <figcaption>The brand object · rendered live</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ============================== IDEA ============================== -->
+<section class="sec gut" id="idea">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">01 · The idea</div><h2>Hold. <span class="it">Then</span> continue.</h2></div>
+    <div class="cols">
+      <div class="essay">
+        <p>Most productivity tools treat a pause as a failure. The streak breaks, the badge turns red, the count of overdue items climbs. [PRODUCT NAME] treats a pause as part of the work, and the fermata gives that belief a shape.</p>
+        <p>The mark is an arch with a point resting beneath it. Read it as a held breath, a door left open, a bookmark in a score. When you're interrupted, your work is held, never lost. When you come back, you continue from the exact note you left on.</p>
+        <p>Round one asked for a calm, retro-futurist product. This revision gives it one idea strong enough to organise everything else: the symbol, the type details, the product's signature screens and the way things move.</p>
+      </div>
+      <aside class="margin">
+        <div class="note"><b>Why it's ownable</b>The fermata hasn't been used as a mark in productivity software. It carries a real meaning that people can learn in one sentence.</div>
+        <div class="note"><b>Why it's retro-future</b>Musical notation is centuries old. Drawn with the geometry of 1970s modernism, it reads as timeless and forward-looking at once.</div>
+      </aside>
+      <p class="pull">“A fermata is the composer saying: I trust you to know how long this should last.”<cite>The brand promise, in one line</cite></p>
+      <div class="evo">
+        <figure>
+          <svg viewBox="0 0 300 180" aria-label="A fermata on a musical staff">
+            <g stroke="var(--graphite)" stroke-width="1"><path d="M10 70h280M10 86h280M10 102h280M10 118h280M10 134h280"/></g>
+            <path d="M120 54a30 30 0 0 1 60 0" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="150" cy="47" r="4" fill="var(--ink)"/>
+            <ellipse cx="150" cy="110" rx="11" ry="8" fill="var(--ink)" transform="rotate(-20 150 110)"/><path d="M160 108V60" stroke="var(--ink)" stroke-width="2"/>
+          </svg>
+          <figcaption><b>Notation</b>Above the note: hold as long as feels right.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 300 180" aria-label="The fermata isolated and constructed">
+            <g fill="none" stroke="var(--hair)" stroke-width="1" stroke-dasharray="3 4"><circle cx="150" cy="130" r="84"/><ellipse cx="150" cy="130" rx="60" ry="48"/><path d="M40 130h220"/></g>
+            <path d="M66 130A84 84 0 0 1 234 130H210A60 48 0 0 0 90 130Z" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+            <circle cx="150" cy="112" r="18" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+          </svg>
+          <figcaption><b>Construction</b>A circle and an ellipse share one centre. The arch is thickest at the crown.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 300 180" aria-label="The finished symbol"><g transform="translate(66 6) scale(2.6)"><use href="#fermata" width="64" height="64" style="color:var(--ink)"/></g></svg>
+          <figcaption><b>Symbol</b>The point drops to the baseline and rests. Sodium amber marks where you are.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SYMBOL ============================== -->
+<section class="sec gut" id="symbol" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">02 · Symbol</div><h2>One proportion, <span class="it">everywhere</span></h2></div>
+    <div class="sym-grid">
+      <div class="plate construct">
+        <span class="cap label">Construction · 64-unit grid</span>
+        <svg viewBox="0 0 640 600" role="img" aria-label="Symbol construction drawing">
+          <defs><pattern id="g10" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="var(--hair)" stroke-width=".6"/></pattern></defs>
+          <rect x="80" y="40" width="480" height="520" fill="url(#g10)"/>
+          <g transform="translate(80 20) scale(7.5)">
+            <g fill="none" stroke="var(--graphite)" stroke-width=".12" stroke-dasharray=".6 .6"><circle cx="32" cy="46" r="28"/><ellipse cx="32" cy="46" rx="20" ry="16"/><path d="M0 46H64M32 10V60"/></g>
+            <path d="M4 46A28 28 0 0 1 60 46H52A20 16 0 0 0 12 46Z" fill="var(--ink)" opacity=".92"/>
+            <circle cx="32" cy="40" r="6" fill="#E6A445"/>
+            <g stroke="#E6A445" stroke-width=".18" fill="none"><path d="M32 18V30"/><path d="M31 18H33M31 30H33"/><path d="M52 47.6H60M52 46.8V48.4M60 46.8V48.4"/><path d="M26 52.5H38M26 51.7V53.3M38 51.7V53.3"/></g>
+          </g>
+          <g font-family="Martian Mono, monospace" font-size="11" fill="var(--graphite)" letter-spacing="1">
+            <text x="372" y="140">CROWN 12U</text><text x="540" y="400" text-anchor="end">TERMINAL 8U</text><text x="320" y="440" text-anchor="middle">DOT Ø 12U = CROWN</text><text x="88" y="390">BASELINE</text>
+          </g>
+        </svg>
+      </div>
+      <div class="icons-row">
+        <div class="appicon"><span class="cap label">App icon</span><div class="squircle"><svg viewBox="0 0 64 64" style="color:#F2F1EC"><use href="#fermata"/></svg></div></div>
+        <div class="plate sizes">
+          <span class="cap label">Scale · filled to 24px, line below</span>
+          <div><svg viewBox="0 0 64 64" width="96" height="96" style="color:var(--ink)"><use href="#fermata"/></svg>96</div>
+          <div><svg viewBox="0 0 64 64" width="48" height="48" style="color:var(--ink)"><use href="#fermata"/></svg>48</div>
+          <div><svg viewBox="0 0 64 64" width="24" height="24" style="color:var(--ink)"><use href="#fermata"/></svg>24</div>
+          <div><svg viewBox="0 0 24 24" width="16" height="16" style="color:var(--ink)"><use href="#fermata-line"/></svg>16</div>
+        </div>
+      </div>
+    </div>
+    <div class="lockups">
+      <div class="plate"><span class="cap label">Primary</span><span class="wm"><svg viewBox="0 0 64 64" style="color:var(--ink)"><use href="#fermata"/></svg>[PRODUCT NAME]</span></div>
+      <div class="plate dark"><span class="cap label">On lagoon</span><span class="wm"><svg viewBox="0 0 64 64" style="color:#EEF0EC"><use href="#fermata"/></svg>[PRODUCT NAME]</span></div>
+      <div class="plate sod"><span class="cap label">On sodium · dot drops out</span><span class="wm"><svg viewBox="0 0 64 64"><path d="M4 46A28 28 0 0 1 60 46H52A20 16 0 0 0 12 46Z" fill="#13191C"/><circle cx="32" cy="40" r="6" fill="none" stroke="#13191C" stroke-width="2"/></svg>[PRODUCT NAME]</span></div>
+    </div>
+    <div class="rules">
+      <div><b>One proportion</b>The dot's diameter equals the crown's thickness. The same 12:8 ratio sets button heights and the timer's colon.</div>
+      <div><b>The dot is a pointer</b>Sodium amber always means "you are here": the resume button, the paused task, the focus progress.</div>
+      <div><b>Wordmark</b>Placeholder only. It will be drawn in Jost's proportions once the name is final.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TYPE ============================== -->
+<section class="sec gut" id="type" style="background:var(--paper); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair)">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">03 · Typography</div><h2>A geometric voice with a <span class="it">human</span> aside</h2></div>
+    <div class="type-hero"><div class="label">Display · Jost 300 with Newsreader Italic</div><div class="big">Progress, <span class="it">without</span> pressure.</div></div>
+    <div class="faces">
+      <div><div class="glyph" style="font-family:var(--f-display); font-weight:300; letter-spacing:-.05em">Rg</div><h4>Jost</h4><p>Display. A geometric sans in the lineage of the typefaces that labelled the space age. Set light, large and tight: −4.5% to −6%.</p></div>
+      <div><div class="glyph" style="font-family:var(--f-serif); font-style:italic; font-weight:300">Rg</div><h4>Newsreader Italic</h4><p>The human aside. One word per headline, pull quotes, and the marginal notes the product writes to you.</p></div>
+      <div><div class="glyph" style="font-family:var(--f-ui); font-weight:500; letter-spacing:-.02em">Rg</div><h4>Hanken Grotesk</h4><p>Interface. Warm, open and highly legible from 12px, so long sessions stay easy on the eyes.</p></div>
+      <div><div class="glyph" style="font-family:var(--f-mono); font-size:58px; padding-block:9px">Rg</div><h4>Martian Mono</h4><p>Readouts. Times, durations and labels, set small and spaced like an instrument panel.</p></div>
+    </div>
+    <div class="details">
+      <div class="plate"><span class="cap label">Detail · the held colon</span><div class="clock">14<span class="colon" aria-hidden="true"><i></i><i></i></span>32</div><p>The timer's colon is two sodium dots, one drawn from the symbol's proportions. It's the only colour on the focus screen.</p></div>
+      <div class="plate"><span class="cap label">Detail · the fermata accent</span><p style="font-size:22px; color:var(--ink); font-family:var(--f-display); letter-spacing:-.02em; line-height:1.3">Q1 roadmap <span class="fm"><svg viewBox="0 0 24 14"><path d="M2 13a10 10 0 0 1 20 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="10.5" r="2.4" fill="#E6A445"/></svg></span> held at 10:42</p><p>A small fermata replaces the word "paused" in running text. It reads as "kept for you", never as "late".</p></div>
+      <div class="plate"><span class="cap label">Detail · tempo</span><p style="font-size:22px; color:var(--ink)"><span class="it">Adagio</span> · <span class="it">Andante</span> · <span class="it">Allegro</span></p><p>Energy settings borrow tempo markings, always with plain words underneath: slow, steady, brisk.</p></div>
+    </div>
+    <div class="scale">
+      <div><code>Display XL · Jost 200 · 120/0.78</code><span class="disp" style="font-size:72px; font-weight:200">19</span></div>
+      <div><code>Display L · Jost 300 · 58/1.02</code><span class="disp" style="font-size:44px">Welcome back.</span></div>
+      <div><code>Aside · Newsreader It · 27/1.32</code><span class="it" style="font-size:27px">You were writing "Why now".</span></div>
+      <div><code>Body · Hanken 16.5/1.55</code><span style="font-size:16.5px">Three things matter today. The rest can wait, and that's fine.</span></div>
+      <div><code>Readout · Martian Mono 11 · +12%</code><span style="font-family:var(--f-mono); font-size:11px; letter-spacing:.12em">10:42 → 14:06 · 3 H 24 MIN AWAY</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== COLOUR ============================== -->
+<section class="sec gut" id="colour">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">04 · Colour</div><h2>Porcelain and lagoon, with <span class="it">one</span> warm point</h2></div>
+    <div class="bands" role="img" aria-label="Palette shown in proportion to use">
+      <div style="flex:34; background:#EEF0EC; color:#13191C"><b>Porcelain</b><span><code>#EEF0EC</code><small>Ground. 55% of every screen.</small></span></div>
+      <div style="flex:16; background:#F8F8F5; color:#13191C; border-left:1px solid #D3D8D4"><b>Paper</b><span><code>#F8F8F5</code><small>Raised surfaces.</small></span></div>
+      <div style="flex:20; background:#1F4A46; color:#EEF0EC"><b>Lagoon</b><span><code>#1F4A46</code><small>Fields, primary actions, the Return.</small></span></div>
+      <div style="flex:14; background:#13191C; color:#EEF0EC"><b>Ink</b><span><code>#13191C</code><small>Type and rules.</small></span></div>
+      <div style="flex:9; background:#BCD7CD; color:#13191C"><b>Sea glass</b><span><code>#BCD7CD</code><small>Tints.</small></span></div>
+      <div style="flex:4; background:#CAC5E3; color:#13191C"><b>Lilac</b><span><code>#CAC5E3</code></span></div>
+      <div style="flex:3; background:#E6A445; color:#13191C"><b style="writing-mode:vertical-rl; font-size:16px">Sodium</b><span><code style="writing-mode:vertical-rl">#E6A445</code></span></div>
+    </div>
+    <div class="night-strip" aria-label="Night palette">
+      <div style="background:#0D1514; color:#9DABA7">Night<br>#0D1514</div>
+      <div style="background:#142120; color:#9DABA7">Night paper<br>#142120</div>
+      <div style="background:#16332F; color:#E9EEEA">Deep lagoon<br>#16332F</div>
+      <div style="background:#E9EEEA; color:#13191C">Moon ink<br>#E9EEEA</div>
+      <div style="background:#8CC7B9; color:#0D1514">Lit lagoon<br>#8CC7B9</div>
+      <div style="background:#EDB25A; color:#0D1514">Sodium<br>#EDB25A</div>
+    </div>
+    <div class="colour-notes">
+      <div><b>Proportion is the brand</b>Large calm fields, very little accent. The palette is shown at its intended ratio, because the ratio matters more than the hues.</div>
+      <div><b>Sodium is earned</b>It appears once per screen at most and only means "you are here". It's never decoration and never a warning.</div>
+      <div><b>Contrast</b>Ink on porcelain 15.5:1 · white on lagoon 9.9:1 · graphite on paper 5.9:1 · ink on sodium 8.3:1 · night ink 15.8:1.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== IMAGERY ============================== -->
+<section class="sec gut" id="imagery" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">05 · Art direction</div><h2>Objects at rest, in <span class="it">morning</span> light</h2></div>
+    <div class="contact">
+      <figure><div class="print"><img src="assets/ref-object.png" width="160" height="199" alt="Porcelain arch with an amber glass sphere on a sea-glass green set"><span>A · BRAND OBJECT</span></div><figcaption>The fermata as a physical object. <a href="https://www.canva.com/M/MAHbZVkgF_0" target="_blank" rel="noopener">Full size in Canva</a></figcaption></figure>
+      <figure><div class="print"><img src="assets/ref-materials.png" width="200" height="200" alt="Material swatches: porcelain, frosted sea-glass acrylic, aluminium, lagoon felt, amber glass, lilac anodized coin"><span>B · MATERIALS</span></div><figcaption>Porcelain, frosted acrylic, felt, amber glass. <a href="https://www.canva.com/M/MAHbZWthyD4" target="_blank" rel="noopener">Full size in Canva</a></figcaption></figure>
+      <figure><div class="print"><img src="assets/ref-architecture.png" width="200" height="133" alt="Curved modernist room with a round window and a green lounge chair"><span>C · SPACE</span></div><figcaption>Curved walls, a round window, a pool of light. <a href="https://www.canva.com/M/MAHbZQWAeJc" target="_blank" rel="noopener">Full size in Canva</a></figcaption></figure>
+      <figure><div class="print"><img src="assets/ref-rest.png" width="160" height="199" alt="Person seen from behind holding a cup by a window in morning light"><span>D · REST</span></div><figcaption>People at rest, seen from behind. <a href="https://www.canva.com/M/MAHbZe5R_Rc" target="_blank" rel="noopener">Full size in Canva</a></figcaption></figure>
+    </div>
+    <div class="ad-rules">
+      <div><b>Light</b>One soft source, low and from the side. Morning, never noon. Long, gentle shadows.</div>
+      <div><b>Materials</b>Matte porcelain, frosted acrylic, wool felt, brushed aluminium. Amber glass appears once, as the dot.</div>
+      <div><b>People</b>Seen from behind or as hands. Resting, reading, looking out. Never staring stressed at a screen.</div>
+      <div class="never"><b>Never</b>Screens inside photos, neon, chrome, sci-fi props, confetti, trophies, generic "AI" glow.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PRODUCT ============================== -->
+<section class="sec gut" id="product" style="background:var(--paper); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair)">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">06 · Product</div><h2>Three signature <span class="it">moments</span></h2></div>
+
+    <div class="plate-head"><h3><small>Plate I · Today</small>A day set like a page</h3><p>An editorial page, not a dashboard. A large date, a tempo you choose, a short typeset list and a margin where the product leaves quiet notes. Habits read as a rhythm on a staff, where skipped days are rests, not failures.</p></div>
+    <div class="scroller"><div class="screen">
+      <div class="today">
+        <aside class="rail">
+          <div class="brand"><svg viewBox="0 0 64 64" style="color:var(--ink)"><use href="#fermata"/></svg>[PRODUCT NAME]</div>
+          <nav class="nav" aria-label="Example navigation">
+            <a class="on" href="#product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M8.5 15.5a3.5 3.5 0 0 1 7 0"/><circle cx="12" cy="14.2" r="1.4" fill="#E6A445" stroke="none"/><path d="M3.5 9h17"/></svg>Today</a>
+            <a href="#product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg>Focus</a>
+            <a href="#product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5.5h12l2.5 8V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M3.5 13.5H8a4 4 0 0 0 8 0h4.5"/></svg>Inbox</a>
+            <a href="#product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 14h19"/><circle cx="5.5" cy="14" r="1.8" fill="currentColor"/><circle cx="10" cy="14" r="1.8" fill="currentColor"/><path d="M14 10.5l1.6 1.6-1.6 1.6 1.6 1.6"/><circle cx="19" cy="14" r="1.8" fill="currentColor"/></svg>Rhythm</a>
+            <a href="#product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 6h14M5 11h14M5 16h8"/><path d="M17 15.5l2 2.5"/></svg>Notes</a>
+          </nav>
+          <div class="quiet"><span class="label">Quiet hours</span>From 18:00. Nothing will ask for you.</div>
+        </aside>
+        <div class="page">
+          <div class="dateline">
+            <div class="num tn">19</div>
+            <div class="dl"><span class="day">Thursday</span><span class="mon">November, 14:06</span></div>
+            <div class="tempo"><span class="label">Today's tempo</span>
+              <div class="seg" role="group" aria-label="Tempo">
+                <button type="button" aria-pressed="false" data-tempo="adagio"><span>Adagio</span><small>Slow</small></button>
+                <button type="button" aria-pressed="true" data-tempo="andante"><span>Andante</span><small>Steady</small></button>
+                <button type="button" aria-pressed="false" data-tempo="allegro"><span>Allegro</span><small>Brisk</small></button>
+              </div>
+            </div>
+          </div>
+          <h4 id="tempo-head">Three things matter today. <span class="it">The rest can wait.</span></h4>
+          <div class="tasks">
+            <div class="task held"><span class="ck"><svg viewBox="0 0 24 14"><path d="M2 13a10 10 0 0 1 20 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="10.5" r="2.4" fill="#E6A445"/></svg></span><span class="t">Q1 roadmap narrative<small>Held at 10:42 · 3 of 5 sections</small></span><span class="d">25 min</span></div>
+            <div class="task"><span class="ck"></span><span class="t">Review onboarding copy<small>Work · after focus</small></span><span class="d">30 min</span></div>
+            <div class="task"><span class="ck"></span><span class="t">Reply to Lina about the venue<small>Studio · short</small></span><span class="d">12 min</span></div>
+            <div class="task done"><span class="ck"></span><span class="t"><span>Book dentist appointment</span><small>Home · done 11:30</small></span><span class="d">5 min</span></div>
+          </div>
+          <div class="rhythm">
+            <svg viewBox="0 0 420 70" aria-label="Walk after lunch: four walks and three rests this week">
+              <path d="M0 34H420" stroke="var(--hair)" stroke-width="1"/>
+              <g fill="var(--ink)"><circle cx="30" cy="34" r="7"/><circle cx="90" cy="34" r="7"/><circle cx="210" cy="34" r="7"/><circle cx="330" cy="34" r="7"/></g>
+              <g fill="none" stroke="var(--graphite)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M147 24l5 5-5 5 5 5"/><path d="M267 24l5 5-5 5 5 5"/><path d="M387 24l5 5-5 5 5 5"/></g>
+              <g font-family="Martian Mono, monospace" font-size="9" fill="var(--graphite)" text-anchor="middle" letter-spacing="1"><text x="30" y="64">M</text><text x="90" y="64">T</text><text x="150" y="64">W</text><text x="210" y="64">T</text><text x="270" y="64">F</text><text x="330" y="64">S</text><text x="390" y="64">S</text></g>
+            </svg>
+            <p><b>Walk after lunch</b>Four walks, three rests. Rests are part of the rhythm.</p>
+          </div>
+        </div>
+        <aside class="marg">
+          <div class="mini-return"><span class="label">Held for you</span><b>Q1 roadmap narrative</b><span style="font-size:13.5px">Next small step: tighten the pricing paragraph.</span><button class="btn-dot" type="button"><i></i>Continue</button></div>
+          <div class="note"><b>Note</b>Lina prefers short replies. Two lines will do.</div>
+          <div class="note"><b>Note</b>You focus best before 11:00. Tomorrow's roadmap block is already there.</div>
+          <div class="note"><b>Held, not late</b>Two tasks moved to Friday. Nothing here is overdue.</div>
+        </aside>
+      </div>
+    </div></div>
+
+    <div class="plate-head"><h3><small>Plate II · The Return</small>Welcome back, exactly where you were</h3><p>The product's signature screen. After any interruption, the page turns to lagoon and shows your last sentence, your next step and what you had open. One button. It turns "where was I?" into a single tap.</p></div>
+    <div class="scroller"><div class="screen" style="border-color:var(--lagoon)">
+      <div class="ret">
+        <div class="main">
+          <svg viewBox="0 0 64 64" width="64" height="64" style="color:var(--on-lagoon)" aria-hidden="true"><use href="#fermata"/></svg>
+          <span class="label">Held at 10:42 · back at 14:06 · 3 h 24 min away</span>
+          <h4>Welcome back. You were writing “Why now”.</h4>
+          <blockquote><p>“Teams don't need another dashboard. They need fewer reasons to open one.”</p><footer>Your last sentence · roadmap.doc</footer></blockquote>
+          <p class="next">Next small step: tighten the pricing paragraph.</p>
+          <div class="ctx"><span>roadmap.doc</span><span>pricing-notes</span><span>2 tabs</span><span>Note: check churn with Ana</span></div>
+          <div class="acts"><button class="btn-dot" type="button"><i></i>Continue</button><a href="#product">Not now</a><a href="#product">Start somewhere else</a></div>
+        </div>
+        <aside class="score">
+          <span class="label" style="margin-bottom:12px">Q1 roadmap · sections</span>
+          <div class="row done"><i></i>Context</div>
+          <div class="row done"><i></i>The problem</div>
+          <div class="row here"><svg viewBox="0 0 24 14"><path d="M2 13a10 10 0 0 1 20 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="10.5" r="2.4" fill="#E6A445"/></svg><span>Why now <span class="it" style="opacity:.75">· held here</span></span></div>
+          <div class="row later"><i></i>Pricing</div>
+          <div class="row later"><i></i>Plan</div>
+        </aside>
+      </div>
+    </div></div>
+
+    <div class="plate-head"><h3><small>Plate III · Focus</small>Nothing on screen but time</h3><p>Night palette, one number and one warm point. The pause button is called Hold and wears the symbol. Notifications wait politely and say when they'll arrive.</p></div>
+    <div class="scroller"><div class="screen" style="border-color:#0D1514">
+      <div class="focus">
+        <div class="inner">
+          <span class="label">Deep work · Q1 roadmap</span>
+          <div class="clock" aria-label="14 minutes 32 seconds left">14<span class="colon" aria-hidden="true"><i></i><i></i></span>32</div>
+          <div class="bar" aria-hidden="true"><i></i><b></b></div>
+          <div class="acts"><button type="button"><svg viewBox="0 0 24 24" style="color:#E9EEEA"><use href="#fermata-line"/></svg>Hold</button><button type="button">End session</button></div>
+        </div>
+        <p class="foot">Notifications are holding until 14:57.</p>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============================== WEB ============================== -->
+<section class="sec gut" id="web">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">07 · Website</div><h2>The landing page <span class="it">opens</span> on the object</h2></div>
+    <div class="scroller"><div class="screen">
+      <div class="land">
+        <nav><span class="brand"><svg viewBox="0 0 64 64" style="color:var(--ink)"><use href="#fermata"/></svg>[PRODUCT NAME]</span><span>How it works</span><span>The Return</span><span>Focus</span><span>Pricing</span><span class="cta">Sign in</span></nav>
+        <div class="hero">
+          <div class="copy">
+            <span class="label">A calmer productivity workspace</span>
+            <h4><span class="ln">Progress,</span> <span class="ln it">without</span> <span class="ln">pressure.</span></h4>
+            <p>Plan your day, protect your focus and build habits at a human pace. When life interrupts, [PRODUCT NAME] holds your place, so you never start from zero.</p>
+            <div class="acts"><button class="btn" type="button">Get early access</button><a href="#web">Watch the film · 1:12</a></div>
+            <div class="proof">
+              <div><b>No streaks to lose</b>Rests are part of the rhythm.</div>
+              <div><b>No overdue red</b>Work is held, never late.</div>
+              <div><b>The Return</b>Pick up from your last sentence.</div>
+            </div>
+          </div>
+          <figure class="visual" id="hero3d" style="margin:0">
+            <div class="fallback" aria-hidden="true"><svg viewBox="0 0 64 64" style="color:#13191C"><use href="#fermata"/></svg></div>
+            <canvas aria-label="Rendered brand object on a porcelain set"></canvas>
+            <figcaption>Fig. 1 · The hold</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============================== MOTION ============================== -->
+<section class="sec gut" id="motion" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">08 · Motion</div><h2>Every movement is a hold <span class="it">or</span> a continue</h2></div>
+    <div class="motion">
+      <div class="mstage">
+        <span class="label">Try it</span>
+        <svg viewBox="0 0 640 300" aria-label="Motion demo: a dot rolls under the arch and rests">
+          <path d="M0 250H640" stroke="var(--hair)"/>
+          <g transform="translate(220 54) scale(3.125)"><path d="M4 46A28 28 0 0 1 60 46H52A20 16 0 0 0 12 46Z" fill="var(--ink)"/></g>
+          <g id="mdot" style="transform:translateX(0)"><circle cx="320" cy="231" r="19" fill="#E6A445"/></g>
+        </svg>
+        <div class="acts"><button type="button" id="mhold">Hold</button><button type="button" id="mgo">Continue</button></div>
+      </div>
+      <div class="principles">
+        <div><b>Hold</b><span>Things decelerate into place and rest. Long ease-out, no bounce. <code>cubic-bezier(.16,1,.3,1) · 700ms</code></span></div>
+        <div><b>Continue</b><span>A short, decisive acceleration out, then the next view settles in. <code>cubic-bezier(.7,0,.84,0) · 450ms</code></span></div>
+        <div><b>The Return</b><span>The page turns to lagoon in one 500ms field wipe, then your last sentence fades up.</span></div>
+        <div><b>Breath</b><span>Ambient motion follows a 6-second cycle, the pace of a slow breath. It pauses in focus.</span></div>
+        <div><b>Never</b><span>Confetti, shaking, bouncing badges or anything that celebrates or scolds.</span></div>
+        <div><b>Reduced</b><span>Opacity only, 120ms. The meaning survives without movement.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SYSTEM ============================== -->
+<section class="sec gut" id="system" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">09 · System</div><h2>Icons, grid and <span class="it">surfaces</span></h2></div>
+    <div class="iconset">
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M8.5 15.5a3.5 3.5 0 0 1 7 0"/><circle cx="12" cy="14.2" r="1.4" fill="#E6A445" stroke="none"/><path d="M3.5 9h17"/></svg><figcaption>Today</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg><figcaption>Focus</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24"><use href="#fermata-line"/></svg><figcaption>Hold</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16a8 8 0 0 1 13.7-5.6"/><path d="M17.5 6.5v4h-4"/><circle cx="19" cy="15.5" r="1.9" fill="#E6A445" stroke="none"/></svg><figcaption>Continue</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 14h19"/><circle cx="5.5" cy="14" r="1.8" fill="currentColor"/><circle cx="10" cy="14" r="1.8" fill="currentColor"/><path d="M14 10.5l1.6 1.6-1.6 1.6 1.6 1.6"/><circle cx="19" cy="14" r="1.8" fill="currentColor"/></svg><figcaption>Rhythm</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5.5h12l2.5 8V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M3.5 13.5H8a4 4 0 0 0 8 0h4.5"/></svg><figcaption>Inbox</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 6h14M5 11h14M5 16h8"/><path d="M17 15.5l2 2.5"/></svg><figcaption>Notes</figcaption></figure>
+      <figure><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 4.5A7.5 7.5 0 1 0 19.5 15a6 6 0 0 1-4-10.5z"/></svg><figcaption>Quiet</figcaption></figure>
+    </div>
+    <div class="sys">
+      <div class="plate"><span class="cap label">Grid · 12 columns, 24 gutter</span><div class="gridviz" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p>Text sits on a 4-column measure inside 12. The margin column holds the product's notes, as in a well-made book.</p></div>
+      <div class="plate"><span class="cap label">Radius · small, then pill</span><div class="radii"><span style="border-radius:2px">2</span><span style="border-radius:8px">8</span><span style="border-radius:14px">14</span><span style="border-radius:99px">pill</span></div><p>Plates and fields are nearly square. Only things you press are round, so the eye learns what's interactive.</p></div>
+      <div class="plate"><span class="cap label">Spacing · 8 base, generous</span><div class="spacing"><span><i style="width:4px;height:4px"></i>4</span><span><i style="width:8px;height:8px"></i>8</span><span><i style="width:16px;height:16px"></i>16</span><span><i style="width:24px;height:24px"></i>24</span><span><i style="width:40px;height:40px"></i>40</span><span><i style="width:64px;height:64px"></i>64</span></div><p>Hairlines, not boxes, separate content. Shadow appears only on plates that float above a field.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CHANGES ============================== -->
+<section class="sec gut changes" id="changes">
+  <div class="wrap">
+    <div class="sec-head"><div class="label">10 · What changed</div><h2>From round one to <span class="it">this</span></h2></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>Round one</th><th>Revision</th></tr></thead>
+        <tbody>
+          <tr><th>Big idea</th><td class="was">A calm mood, with no single concept.</td><td>The fermata: hold, then continue. One idea drives the symbol, type, screens and motion.</td></tr>
+          <tr><th>Symbol</th><td class="was">A half-sun on a horizon, common in wellness brands.</td><td>A constructed fermata with one proportion system, an app icon, small-size line version and three lockups.</td></tr>
+          <tr><th>Type</th><td class="was">One good family, set light, with no signature details.</td><td>Jost with Newsreader Italic asides, a sodium "held colon", an inline fermata accent and tempo labels.</td></tr>
+          <tr><th>Imagery</th><td class="was">Flat pastel vector scenes.</td><td>A live 3D brand object, four art-directed references and written rules for light, material and people.</td></tr>
+          <tr><th>Product</th><td class="was">A standard three-column task screen.</td><td>Three signature moments: Today set as a page, The Return, and Focus. Habits are a rhythm with rests.</td></tr>
+          <tr><th>Feel</th><td class="was">Pleasant, soft, a bit generic.</td><td>Editorial and confident. Large colour fields, generous space, one warm point of colour.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="next-step">
+      <span class="await"><i></i>Awaiting your approval</span>
+      <p>If this is the right level, I'll develop it into the full design system: final symbol and app icon, tokens for light and dark, components, motion specs and an illustration and photography kit.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="gut"><div class="wrap">[PRODUCT NAME] · Direction 1, revision 2 · Fonts: Jost, Newsreader, Hanken Grotesk, Martian Mono (all SIL Open Font License, free for commercial use) · Reference images generated with Canva AI as art-direction studies, not final photography.</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Tempo selector (Today plate) ---------- */
+  var heads = {
+    adagio: 'One thing matters today. <span class="it">Go slowly.</span>',
+    andante: 'Three things matter today. <span class="it">The rest can wait.</span>',
+    allegro: 'Five things fit today. <span class="it">Shortest first.</span>'
+  };
+  document.querySelectorAll('[data-tempo]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('[data-tempo]').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      document.getElementById('tempo-head').innerHTML = heads[b.getAttribute('data-tempo')];
+    });
+  });
+
+  /* ---------- Motion demo ---------- */
+  var dot = document.getElementById('mdot');
+  function hold(){ dot.classList.remove('go'); dot.style.opacity = '0'; dot.style.transform = 'translateX(300px)'; void dot.getBoundingClientRect(); dot.style.opacity = '1'; dot.style.transform = 'translateX(0)'; }
+  function go(){ dot.classList.add('go'); dot.style.transform = 'translateX(340px)'; dot.style.opacity = '0'; }
+  document.getElementById('mhold').addEventListener('click', hold);
+  document.getElementById('mgo').addEventListener('click', go);
+
+  /* ---------- Live 3D brand object ---------- */
+  if (!window.THREE) return;
+  function lin(hex){ return new THREE.Color(hex).convertSRGBToLinear(); }
+
+  function makeScene(fig, opt){
+    var canvas = fig.querySelector('canvas');
+    var renderer;
+    try { renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, preserveDrawingBuffer: true}); } catch(e){ return; }
+    if (!renderer.getContext()) return;
+    fig.querySelector('.fallback').hidden = true;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = opt.exposure || 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    var scene = new THREE.Scene();
+    scene.background = lin(opt.wall);
+
+    // Soft studio environment for reflections
+    var pmrem = new THREE.PMREMGenerator(renderer);
+    var env = new THREE.Scene();
+    env.add(new THREE.Mesh(new THREE.SphereGeometry(20, 32, 16), new THREE.MeshBasicMaterial({color: lin('#59625f'), side: THREE.BackSide})));
+    var box1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 6), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide}));
+    box1.position.set(-12, 6, 4); box1.lookAt(0, 0, 0); env.add(box1);
+    var box2 = new THREE.Mesh(new THREE.PlaneGeometry(14, 4), new THREE.MeshBasicMaterial({color: lin('#dfeee8'), side: THREE.DoubleSide}));
+    box2.position.set(4, 14, 2); box2.lookAt(0, 0, 0); env.add(box2);
+    scene.environment = pmrem.fromScene(env, 0.04).texture;
+
+    // Set: a curved studio sweep, floor colour blending into wall colour through the curve
+    (function(){
+      var W = 120, FL = 60, R = 4.5, WH = 40, pts = [], ts = [], i, N1 = 12, N2 = 40, N3 = 12;
+      for (i = 0; i <= N1; i++){ pts.push([FL * (1 - i / N1), 0]); ts.push(0); }
+      for (i = 1; i <= N2; i++){ var a = -Math.PI / 2 - (Math.PI / 2) * (i / N2); pts.push([R * Math.cos(a), R + R * Math.sin(a)]); var u = i / N2; ts.push(u * u * (3 - 2 * u)); }
+      for (i = 1; i <= N3; i++){ pts.push([-R, R + WH * (i / N3)]); ts.push(1); }
+      var cf = lin(opt.floor), cw = lin(opt.wall), pos = [], col = [], idx = [];
+      pts.forEach(function(p, k){
+        var c = cf.clone().lerp(cw, ts[k]);
+        pos.push(-W / 2, p[1], p[0], W / 2, p[1], p[0]);
+        col.push(c.r, c.g, c.b, c.r, c.g, c.b);
+        if (k > 0){ var a0 = (k - 1) * 2, b0 = k * 2; idx.push(a0, a0 + 1, b0, a0 + 1, b0 + 1, b0); }
+      });
+      var g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+      g.setIndex(idx); g.computeVertexNormals();
+      var sweep = new THREE.Mesh(g, new THREE.MeshStandardMaterial({vertexColors: true, roughness: 1, side: THREE.DoubleSide}));
+      sweep.position.z = -1.6; sweep.receiveShadow = true; scene.add(sweep);
+    })();
+
+    // The arch: extruded fermata profile, thicker at the crown
+    var s = new THREE.Shape();
+    s.moveTo(-2.8, 0);
+    s.absarc(0, 0, 2.8, Math.PI, 0, true);
+    s.lineTo(2.0, 0);
+    s.absellipse(0, 0, 2.0, 1.6, 0, Math.PI, false, 0);
+    s.lineTo(-2.8, 0);
+    var geo = new THREE.ExtrudeGeometry(s, {depth: 1.25, bevelEnabled: true, bevelThickness: .14, bevelSize: .1, bevelSegments: 8, curveSegments: 128});
+    geo.translate(0, 0, -0.625);
+    var porcelain = new THREE.MeshPhysicalMaterial({color: lin('#F1F0EB'), roughness: .5, clearcoat: .35, clearcoatRoughness: .45, envMapIntensity: .55});
+    var arch = new THREE.Mesh(geo, porcelain);
+    arch.position.y = .1; arch.castShadow = true; arch.receiveShadow = true; scene.add(arch);
+
+    // The dot: amber glass sphere, diameter equals crown thickness
+    var amber = new THREE.MeshPhysicalMaterial({color: lin('#D4862A'), roughness: .05, metalness: 0, clearcoat: 1, clearcoatRoughness: .03, emissive: lin('#4a2200'), emissiveIntensity: .3, envMapIntensity: 1.5});
+    var ball = new THREE.Mesh(new THREE.SphereGeometry(.6, 96, 64), amber);
+    ball.castShadow = true; scene.add(ball);
+
+    // Warm caustic glow on the floor beside the sphere
+    var gc = document.createElement('canvas'); gc.width = gc.height = 128;
+    var g = gc.getContext('2d'); var grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grd.addColorStop(0, 'rgba(255,190,90,.75)'); grd.addColorStop(1, 'rgba(255,190,90,0)');
+    g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
+    var glow = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.0), new THREE.MeshBasicMaterial({map: new THREE.CanvasTexture(gc), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .55}));
+    glow.rotation.x = -Math.PI / 2; glow.position.y = .012; scene.add(glow);
+
+    // Light: one low soft key from the left, morning colour
+    var key = new THREE.DirectionalLight(lin('#fff1dc'), 2.6);
+    key.position.set(-7, 4.2, 3.5); key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    var sc = key.shadow.camera; sc.left = -8; sc.right = 8; sc.top = 8; sc.bottom = -4; sc.near = .5; sc.far = 30;
+    key.shadow.bias = -0.0004; key.shadow.normalBias = .02;
+    scene.add(key);
+    scene.add(new THREE.HemisphereLight(lin('#ffffff'), lin(opt.floor), .55));
+
+    var cam = new THREE.PerspectiveCamera(24, 1, .1, 200);
+    var target = new THREE.Vector3(0, 1.25, 0);
+    var px = 0, py = 0, tx = 0, ty = 0;
+
+    function size(){
+      var w = fig.clientWidth, h = fig.clientHeight; if (!w || !h) return;
+      renderer.setSize(w, h, false); cam.aspect = w / h;
+      var tn = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+      var fitW = 8.4 / (2 * tn * cam.aspect);
+      var fitH = 5.6 / (2 * tn);
+      cam.userData.dist = Math.max(fitW, fitH) * (opt.zoom || 1);
+      cam.updateProjectionMatrix();
+    }
+    size(); window.addEventListener('resize', function(){ size(); render(); });
+
+    // Intro: the sphere rolls in from the right and settles (the hold)
+    var t0 = null, dur = reduce ? 0 : 2200, startX = 5.2;
+    function ease(t){ return 1 - Math.pow(1 - t, 4); }
+    function place(x){ ball.position.set(x, .6, 0); ball.rotation.z = -x / .6; glow.position.x = x + .55; }
+
+    function render(){
+      var d = cam.userData.dist || 12;
+      px += (tx - px) * .06; py += (ty - py) * .06;
+      cam.position.set(1.2 + px * 1.4, 1.75 + py * .5, d);
+      cam.lookAt(target);
+      renderer.render(scene, cam);
+    }
+    var visible = false, running = false, last = 0;
+    function loop(ts){
+      if (!visible){ running = false; return; }
+      if (t0 === null) t0 = ts;
+      var p = dur ? Math.min(1, (ts - t0) / dur) : 1;
+      place(startX * (1 - ease(p)));
+      render();
+      var settled = p >= 1 && Math.abs(tx - px) < .001 && Math.abs(ty - py) < .001;
+      if (settled){ running = false; return; }
+      requestAnimationFrame(loop);
+    }
+    function kick(){ if (!running && visible){ running = true; requestAnimationFrame(loop); } }
+    place(dur ? startX : 0); render();
+    if (!reduce){
+      fig.addEventListener('pointermove', function(e){ var r = fig.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5); ty = ((e.clientY - r.top) / r.height - .5); kick(); });
+      fig.addEventListener('pointerleave', function(){ tx = 0; ty = 0; kick(); });
+    }
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) kick(); }, {threshold: .15}).observe(fig);
+    } else { visible = true; kick(); }
+  }
+
+  makeScene(document.getElementById('cover3d'), {wall: '#C4DDD3', floor: '#2A5A55', exposure: 1.0});
+  makeScene(document.getElementById('hero3d'), {wall: '#E6E9E4', floor: '#BCD7CD', exposure: .98, zoom: 1});
+})();
+</script>
